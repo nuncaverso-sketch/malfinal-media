@@ -1,0 +1,191 @@
+{
+ "example_info": {
+  "autoPublish": true,
+  "draft": false,
+  "descendants": [],
+  "firstCommentText": "",
+  "hasNotReadNotes": false,
+  "media": [
+   "https://raw.githubusercontent.com/nuncaverso-sketch/malfinal-media/main/VID-20261110-001.mp4"
+  ],
+  "mediaAltText": [],
+  "providers": [
+   {
+    "network": "youtube"
+   },
+   {
+    "network": "tiktok"
+   },
+   {
+    "network": "instagram"
+   },
+   {
+    "network": "facebook"
+   }
+  ],
+  "publicationDate": {
+   "dateTime": "2026-11-11T07:30:00",
+   "timezone": "America/Mexico_City"
+  },
+  "shortener": false,
+  "smartLinkData": {
+   "ids": []
+  },
+  "text": "Una ola de cerveza mató a 8 personas en Londres en 1814… y la cervecería terminó ganando dinero. 🍺⚖️ Historia real.\n#historia #datoscuriosos #curiosidades #malfinal #historiasreales\n\nFuente: History.com — The London Beer Flood.\nAnimación hecha con apoyo de IA.",
+  "youtubeData": {
+   "title": "Una ola de CERVEZA mató a 8 personas 🍺",
+   "type": "short",
+   "privacy": "public",
+   "tags": [
+    "historia",
+    "datos curiosos",
+    "muertes absurdas",
+    "mal final",
+    "shorts"
+   ],
+   "category": "EDUCATION",
+   "madeForKids": false,
+   "isAiGeneratedContent": true
+  },
+  "tiktokData": {
+   "disableComment": false,
+   "disableDuet": false,
+   "disableStitch": false,
+   "privacyOption": "PUBLIC_TO_EVERYONE",
+   "commercialContentThirdParty": false,
+   "commercialContentOwnBrand": false,
+   "title": "Una ola de CERVEZA mató a 8 personas 🍺",
+   "autoAddMusic": false,
+   "isAigc": true
+  },
+  "instagramData": {
+   "type": "REEL",
+   "showReelOnFeed": true,
+   "isAiGenerated": true
+  },
+  "facebookData": {
+   "type": "REEL",
+   "title": "Una ola de CERVEZA mató a 8 personas 🍺"
+  }
+ },
+ "videos": {
+  "VID-20261110-001": {
+   "metricool_id": 424059293,
+   "uuid": "5135073865227911200",
+   "slot": "2026-11-11T07:30:00",
+   "title": "Una ola de CERVEZA mató a 8 personas 🍺",
+   "project": "cerveza3",
+   "media": "VID-20261110-001v5.mp4",
+   "qa": "v3 rebuild (1 attempt + forced publish rule)"
+  },
+  "VID-20261110-002": {
+   "metricool_id": 424070625,
+   "uuid": "68186798064357344",
+   "slot": "2026-11-11T13:00:00",
+   "title": "Sobrevivió al NIÁGARA en un barril… lo mató una naranja 🍊",
+   "project": "niagara3",
+   "media": "VID-20261110-002v3.mp4",
+   "qa": "v3 rebuild (1 attempt + forced publish rule)"
+  },
+  "VID-20261110-003": {
+   "metricool_id": 424086229,
+   "uuid": "-8440272518124780956",
+   "slot": "2026-11-11T19:30:00",
+   "title": "Saltó de la TORRE EIFFEL con un traje que él inventó 🪂",
+   "project": "eiffel3",
+   "media": "VID-20261110-003v3.mp4",
+   "qa": "v3 rebuild (1 attempt + forced publish rule)"
+  },
+  "VID-20261110-004": {
+   "metricool_id": 424103150,
+   "uuid": "-895177550353314362",
+   "slot": "2026-11-12T07:30:00",
+   "title": "Quiso demostrar que la ventana era IRROMPIBLE 🪟",
+   "project": "ventana3",
+   "media": "VID-20261110-004v3.mp4",
+   "qa": "v3 rebuild (1 attempt + forced publish rule)"
+  },
+  "VID-20261110-005": {
+   "metricool_id": 424128417,
+   "uuid": "8367155208976941329",
+   "slot": "2026-11-12T13:00:00",
+   "title": "Una ola de JARABE de 8 metros arrasó Boston 🍯",
+   "project": "melaza3",
+   "media": "VID-20261110-005v3.mp4",
+   "qa": "v3 rebuild (1 attempt + forced publish rule)"
+  },
+  "VID-20261110-006": {
+   "metricool_id": 424147926,
+   "uuid": "-8399659931806512481",
+   "slot": "2026-11-12T19:30:00",
+   "title": "Este abogado GANÓ el caso… demostrándolo en sí mismo ⚖️",
+   "project": "abogado3",
+   "media": "VID-20261110-006v3.mp4",
+   "qa": "v3 rebuild (1 attempt + forced publish rule)"
+  },
+  "VID-20261110-007": {
+   "metricool_id": 424171826,
+   "uuid": "2840333282246085581",
+   "slot": "2026-11-13T07:30:00",
+   "title": "Este músico murió por llevar el RITMO 🎼",
+   "project": "lully3",
+   "media": "VID-20261110-007v3.mp4",
+   "qa": "v3 rebuild (1 attempt + forced publish rule)"
+  },
+  "VID-20261110-008": {
+   "metricool_id": 424191683,
+   "uuid": "8884635062313372359",
+   "slot": "2026-11-13T13:00:00",
+   "title": "Inventó 2 de las peores cosas del siglo XX… y lo mató la tercera",
+   "project": "poleas3",
+   "media": "VID-20261110-008v3.mp4",
+   "qa": "v3 rebuild (1 attempt + forced publish rule)"
+  },
+  "VID-20261110-009": {
+   "metricool_id": 424217137,
+   "uuid": "-3832667063987846141",
+   "slot": "2026-11-13T19:30:00",
+   "title": "Le pusieron ALAS a un carro… y lo hicieron volar ✈️🚗",
+   "project": "pinto3",
+   "media": "VID-20261110-009v3.mp4",
+   "qa": "v3 rebuild (1 attempt + forced publish rule)"
+  },
+  "VID-20261110-010": {
+   "metricool_id": 424243631,
+   "uuid": "-2443161876793048730",
+   "slot": "2026-11-14T09:30:00",
+   "title": "Su barba medía 1.4 metros… y fue lo que lo mató 🧔",
+   "project": "barba3",
+   "media": "VID-20261110-010v3.mp4",
+   "qa": "v3 rebuild (1 attempt + forced publish rule)"
+  },
+  "VID-20261110-011": {
+   "metricool_id": 424271011,
+   "uuid": "-4743505066469406067",
+   "slot": "2026-11-14T13:00:00",
+   "title": "Un genio de la ciencia murió por rellenar un pollo con NIEVE 🐔❄️",
+   "project": "pollo3",
+   "media": "VID-20261110-011v3.mp4",
+   "qa": "v3 rebuild (1 attempt + forced publish rule)"
+  },
+  "VID-20261110-012": {
+   "metricool_id": 424296508,
+   "uuid": "717286113889374008",
+   "slot": "2026-11-14T19:30:00",
+   "title": "Una de las primeras personas en morir por un AUTO… en 1869 🚂",
+   "project": "vapor3",
+   "media": "VID-20261110-012v3.mp4",
+   "qa": "v3 rebuild (1 attempt + forced publish rule)"
+  },
+  "VID-20261110-013": {
+   "metricool_id": 423833327,
+   "uuid": "6679017619232410139",
+   "slot": "2026-11-10T19:30:00",
+   "title": "Construyó un faro de MADERA con velas… y pidió vivir la peor tormenta 🌊",
+   "project": "faro3",
+   "media": "VID-20261110-013c.mp4",
+   "qa": "CALIDAD 7.1 / PEGADA 7.0 PUBLICAR"
+  }
+ },
+ "next_num": 14
+}
