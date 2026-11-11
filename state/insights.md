@@ -12,6 +12,15 @@ Updated: 2026-11-11 13:50 (America/Mexico_City). **Insufficient data**: keep the
   - Instagram `reels` (IGRE*);
   - YouTube `videos published in range` (YTVP*). The old `videos` YTVI* fields are deprecated, so use YTVP*.
 - This is probably sync lag on Metricool's side (24-48 h). The next run should retry.
+- **External source (public, no login): Return YouTube Dislike API** `https://returnyoutubedislikeapi.com/votes?videoId=<id>`, which gives YouTube views and likes. Read 2026-11-11 ~14:00 CDT:
+  | VID | YT id | views | likes | likes/views |
+  |---|---|---|---|---|
+  | faro (10 Nov 19:30) | p4m9-jI6EyE | 505 | 16 | 3.2 % |
+  | cerveza (11 Nov 07:30) | 7PLnZXO0RNw | 0* | 0* | n/a |
+  | niágara (11 Nov 13:00) | BHhIddLFpC4 | 0* | 0* | n/a |
+  
+  \*The API only started tracking these at 20:00Z today, so the 0 is not real; read them again on the next run.
+- TikTok, Instagram and Facebook block automated reads (robots). Don't get around that. Retention, watch time and shares are not public anywhere, so they can only come from Metricool or the native apps.
 - Metric IDs to use:
   - TikTok: TKPO02, 05, 06, 07, 08, 09, 10, 13 (full watch), 15 (avg watch), 16 (forYou).
   - Instagram: IGRE02, 03, 23 (views), 10, 21 (shares), 12, 24 (avg watch), 27 (retention), 30 (skip rate). IGRE13 and IGRE15 are deprecated.
