@@ -1,6 +1,7 @@
 # Mal Final: autopilot (scheduled task)
 
-Goal: there must ALWAYS be **6 videos scheduled** in Metricool for the rest of today plus the next 2 days.
+Goal: there must ALWAYS be scheduled in Metricool every free slot for the rest of today plus the next 2 days.
+**Rhythm: 2 videos per day, at 13:00 and 19:30** (user decision, 11 Nov). Target: get each video as close to 10 as possible.
 Each video passes through a **pre-production filter**: the reviewer, fed with the real metrics of the videos already published.
 
 ## Hard rules (from the user)
@@ -26,9 +27,9 @@ cd pipeline && bash setup.sh && cd engine && npm i --silent three@0.187.0 puppet
 
 ## 1. Inventory (Metricool)
 - blogId `8014220`, timezone `America/Mexico_City`.
-- Slots: **07:30, 13:00, 19:30** (on weekends 09:30, 13:00, 19:30).
+- Slots: **13:00 and 19:30** every day (07:30 no longer used).
 - `getScheduledPosts` from now to the end of day+2. Count the non-draft future posts.
-- `needed = 6 − count`. If `needed ≤ 0`, do only step 2 and finish.
+- `needed = free slots in that window − count`. If `needed ≤ 0`, do only step 2 and finish.
 - **Produce at most 1 video per run.** Assign it to the earliest free slot.
 
 ## 2. Analytics → `state/insights.md` (filter input)
@@ -54,7 +55,7 @@ Don't invent numbers. With fewer than 3 videos that have data, say "insufficient
 
 ## 4. PRE-PRODUCTION FILTER (reviewer, BEFORE rendering)
 Write `script.txt` with these rules:
-- 12–18 lines, ≤ 60 s.
+- **Length 62–75 s** (TikTok Creator Rewards needs more than 1 minute; the user does NOT want shorter videos). 15–20 lines.
 - Line 1 = hook with the twist.
 - Numbers spelled out so the TTS reads them well.
 
@@ -65,6 +66,18 @@ Then launch the reviewer subagent (general-purpose) with:
 - the task: "rate 1–10 the hook, clarity of every beat, visual feasibility, and predicted potential based on the metrics. List changes."
 
 If the score is < 7, apply the changes once and move on.
+
+## 4b. A/B hooks (applies to every video)
+- Write **2 hooks**: A and B (title + on-screen text of up to 4 words).
+- A goes to **YouTube + Facebook** (`youtubeData.title`, `facebookData.title`).
+- B goes to **TikTok + Instagram** (`tiktokData.title` and the first line of the copy).
+- The on-screen text alternates by video number: even = A, odd = B. Use the same video for all 4 networks.
+- Record in `state/posts.json`: `hookA`, `hookB`, `burned: A|B`.
+- In step 2, compare retention and views of A vs B against the network average, and keep the winning type in `insights.md`.
+
+## 4c. Recycle what works
+- If `insights.md` has a top 3, **at least 1 of every 2 videos** repeats the mechanism or topic of the top performer, with a new story. Examples: absurd floods (beer, syrup), "survived the hard thing and died from the silly thing", "own invention", "his trick/wish came true". Also reuse its winning hook formula.
+- The other video explores a new type, so we keep learning.
 
 ## 5. Production (one project per video)
 1. `bash engine/new_project.sh /home/claude/work/VID-XXX 8810` → `cd` into it and copy `script.txt` there.
@@ -77,7 +90,12 @@ If the score is < 7, apply the changes once and move on.
    - no smiles in tragedies;
    - animated fluids;
    - loop ending.
-5. Stills: `node render.mjs st1 "<frames at 25% and 80% of each phrase>" 360`. Make a contact sheet, look at it, and fix everything in ONE pass.
+5. Stills: `node render.mjs st1 "<frames at 25% and 80% of each phrase>" 360`. Make a contact sheet.
+5b. **POLISH TOWARD 10 (before rendering — stills are cheap, renders are not):**
+   - Launch the reviewer subagent with the contact sheet, `plan.md`, `voice/voice.wav` (it may transcribe it) and `qa/LESSONS.md`.
+   - Ask it for a **1–10 score per shot** plus an overall score, and for every shot below 9, the exact change.
+   - Apply ALL the changes, render the stills again, and repeat. **Up to 3 rounds, or until the overall score is ≥ 9.**
+   - Only then do the full render. That keeps the final review from finding things that need a re-render.
 6. Render: `RESUME=1 node render.mjs frames 0-99999 720`.
    - At 0.9 s/frame on 2 CPUs. Use background calls ≤ 2 h, or 9-minute foreground chunks.
    - Never run 2 renders in parallel.

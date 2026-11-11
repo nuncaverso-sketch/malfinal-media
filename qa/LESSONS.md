@@ -26,6 +26,10 @@ Rule (user): each video gets 1 attempt + at most 1 maximized redo, then it gets 
 9. Ending with a loop: the last shot cuts to the hook shot.
 10. Recognizable objects: the crown on the head, iron that looks like iron, candles with a flame.
 
+## Length and A/B
+- 62–75 s (monetization). Never under 61 s.
+- 2 hooks per video (A: YouTube/Facebook, B: TikTok/Instagram).
+
 ## Process
-- Stills at 25 % and 80 % of each phrase BEFORE rendering the whole thing; fix all of it in one pass.
+- Stills at 25 % and 80 % of each phrase BEFORE rendering + a stills review loop (up to 3 rounds, target ≥ 9).
 - Run measure.py (cheap) on every final video. Only run the reviewer agent on the first attempt of new videos.
