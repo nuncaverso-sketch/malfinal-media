@@ -65,5 +65,5 @@ Updated: 2026-11-12 15:50 (America/Mexico_City). YouTube views/likes only (3 vid
 - Tentative (n=3): title ≤ 9 words, 1 CAPS keyword + concrete number or object; prefer twist-contrast hooks ("sobrevivió a X… lo mató Y").
 - Hook with action in frame 0 plus a 3-4 word top title that does not repeat the subtitle.
 - Every key beat shown on screen; the twist is clear in the last line.
-- 50-65 s; average shot ≤2.5 s; loop ending.
+- 62-75 s (user: do NOT shorten, monetization); average shot ≤2.5 s; loop ending.
 - Burned-in subtitles, numbers as digits.
