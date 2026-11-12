@@ -1,8 +1,20 @@
 # Insights (analytics → rules)
 
-Updated: 2026-11-11 13:50 (America/Mexico_City). **Insufficient data**: keep the previous rules.
+Updated: 2026-11-11 23:55 (America/Mexico_City). YouTube views/likes only (3 videos); no retention data yet → previous rules stay, plus tentative notes below.
 
-## Analytics status
+## Latest read (2026-11-11 ~23:50 CST)
+- Metricool: TikTok `posts` and IG `reels` still 0 rows; YouTube YTVP rows exist for faro/cerveza/niágara but all metrics null (sync lag). Eiffel (11 Nov 19:30) not listed yet.
+- Return YouTube Dislike API:
+  | VID | hours live | views | likes | likes/views | views/h |
+  |---|---|---|---|---|---|
+  | niágara (002) | ~11 | 849 | 36 | 4.2 % | ~77 |
+  | cerveza (001) | ~16 | 803 | 37 | 4.6 % | ~50 |
+  | faro | ~28 | 1218 | 27 | 2.2 % | ~43 |
+- Top: niágara (fastest views/h) and cerveza (best like rate). Bottom: faro (lowest like rate).
+- Tentative pattern (n=3, YouTube only, NOT a rule yet): "survived the hard thing, died from the silly thing" (niágara) and absurd flood with a number in the title (cerveza, "8 personas") beat the long, descriptive faro title. Short CAPS-keyword titles with a concrete object/number look better than long titles.
+- Hook A/B: no per-network data yet to compare.
+
+## Analytics status (previous)
 - Published on all 4 networks (Metricool status PUBLISHED):
   - faro (Winstanley), 10 Nov 19:30. YT p4m9-jI6EyE, TT 7706719998227565876, IG DflTrOhAk8q.
   - VID-20261110-001 cerveza, 11 Nov 07:30. YT 7PLnZXO0RNw, TT 7706906318979779861, IG DfmmOXxkYb-.
@@ -27,6 +39,7 @@ Updated: 2026-11-11 13:50 (America/Mexico_City). **Insufficient data**: keep the
   - YouTube: YTVP02, 17, 06, 08, 09, 11, 12.
 
 ## Current rules (from the reviewer, until there is data)
+- Tentative (n=3): title ≤ 9 words, 1 CAPS keyword + concrete number or object; prefer twist-contrast hooks ("sobrevivió a X… lo mató Y").
 - Hook with action in frame 0 plus a 3-4 word top title that does not repeat the subtitle.
 - Every key beat shown on screen; the twist is clear in the last line.
 - 50-65 s; average shot ≤2.5 s; loop ending.
