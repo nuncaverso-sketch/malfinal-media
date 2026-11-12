@@ -187,5 +187,8 @@
    "qa": "CALIDAD 7.1 / PEGADA 7.0 PUBLICAR"
   }
  },
- "next_num": 14
+ "next_num": 14,
+ "metricool_month_count": {
+  "2026-11": 13
+ }
 }

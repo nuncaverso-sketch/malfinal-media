@@ -32,6 +32,16 @@ cd pipeline && bash setup.sh && cd engine && npm i --silent three@0.187.0 puppet
 - `needed = free slots in that window − count`. If `needed ≤ 0`, do only step 2 and finish.
 - **Produce at most 1 video per run.** Assign it to the earliest free slot.
 
+## 1b. Metricool free-plan limit (user decision, 11 Nov: do NOT pay; when it runs out, switch to Buffer)
+- The free plan allows **20 posts per calendar month**. In November 2026, 13 had already been used as of 11 Nov (faro + 001–012).
+- Keep the count in `state/posts.json` → `metricool_month_count` (`{"2026-11": 13}`). Add 1 for each `createScheduledPost`.
+- With **2 or fewer** left: tell the user in the final summary ("quedan N publicaciones gratis en Metricool este mes").
+- With **0 left**, or if Metricool rejects a post for the limit:
+  - do NOT create more posts and do NOT get around the limit;
+  - save the finished video to the repo and record it as `pendiente de publicar`;
+  - **tell the user clearly**: "Se acabó el plan gratis de Metricool: configuremos Buffer". Do NOT configure Buffer without them: it needs their OAuth / approval.
+- A new month resets the counter.
+
 ## 2. Analytics → `state/insights.md` (filter input)
 Pull data with `getAnalyticsDataByMetrics` for the last 14 days:
 - **TikTok** `posts`: views, likes, shares, comments, fullVideoWatchedRate, average time watched, forYou.
