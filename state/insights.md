@@ -2,6 +2,25 @@
 
 Updated: 2026-11-12 15:50 (America/Mexico_City). YouTube views/likes only (3 videos); no retention data yet → previous rules stay.
 
+
+## REAL YouTube Studio data (screenshots from the user, 12 Nov 17:24) — HIGHEST PRIORITY
+| VID | hours live | views | stayed to watch (not swiped) | avg view duration | watch h | subs |
+|---|---|---|---|---|---|---|
+| niágara (002) | 28 | 1,344 | **58.2 %** | 0:26 | 5.9 | 0 |
+| ventana (004) | 5 | 1.2K | 49.5 % | **0:31** | – | – |
+| eiffel (003) | 21 | 1,024 (still climbing, 2nd wave) | 43.4 % | 0:26 | 3.4 | +1 |
+- 97–98 % of views come from the Shorts feed → the first 1–2 s decide everything.
+- Diagnosis: (1) **Hook**: 42–57 % swipe immediately. Target ≥ 65 %. Niágara (contrast "survived X… died from Y" visible from frame 0) is best. (2) **Mid-video drop**: avg 26–31 s of a 62–75 s video (~40 %). Viewers leave in the middle, not at the start only. (3) Almost 0 subs: no reason to follow.
+## RULES derived from this (apply to EVERY new script, override older tentative rules)
+1. **Frame 0 = the absurd payoff image** (barrel in falls, man in wing suit on the tower edge, wave of beer) + 3-4 word on-screen text. No establishing shot, no scenery, no "en 1912…" opener.
+2. **Line 1 ≤ 9 words and contains the contrast/twist** ("Sobrevivió al Niágara en un barril… y lo mató una cáscara"). Don't explain before the hook.
+3. **Open loop**: line 1 or 2 promises the ending ("lo que lo mató fue ridículo"); the payoff is delivered in the LAST 8 s. Never reveal the cause of death in the middle.
+4. **Re-hooks at ~20 s and ~40 s**: a short line that raises stakes ("Pero eso no fue lo peor…", "Y aquí todo salió mal."), with a visual change (new location / zoom / SFX hit) on the same frame.
+5. No dead air: every shot ≤ 2.5 s, camera always moving; cut any line that only gives background (dates, names) unless it's ≤ 5 words.
+6. **Last line = twist + a loop back to frame 0** and an implicit follow reason (e.g. series tag "Muertes absurdas #N" on screen) — no begging CTA.
+7. KPI targets to judge future videos: stayed ≥ 60 %, avg view ≥ 35 s, ≥ 1 sub per 500 views.
+8. Topics: "survived the impossible / died from something silly" and "own invention killed him" first (niágara, ventana top on stayed/avg).
+
 ## Latest read (2026-11-12 ~15:50 CST)
 - Metricool: TikTok `posts` / IG `reels` still 0 rows; YTVP rows (faro, cerveza, niágara, now also Eiffel) all null. Ventana (12 Nov 12:00) not listed yet.
 - Return YouTube Dislike API:

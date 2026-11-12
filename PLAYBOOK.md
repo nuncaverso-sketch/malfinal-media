@@ -163,3 +163,6 @@ Commit and push the `pipeline` branch with:
 - `qa/LESSONS.md`, if the reviewer found a new failure
 
 `LESSONS.md` must stay a short checklist.
+
+## 2b. Real retention data
+The user may paste YouTube Studio screenshots ("se quedaron para mirar", avg view duration). Those numbers beat any API estimate: put them at the top of `insights.md` and judge scripts against the KPI targets there (stayed ≥ 60 %, avg ≥ 35 s).
