@@ -1,6 +1,18 @@
 # Insights (analytics → rules)
 
-Updated: 2026-11-11 23:55 (America/Mexico_City). YouTube views/likes only (3 videos); no retention data yet → previous rules stay, plus tentative notes below.
+Updated: 2026-11-12 07:55 (America/Mexico_City). YouTube views/likes only (3 videos); no retention data yet → previous rules stay, plus tentative notes below.
+
+## Latest read (2026-11-12 ~07:55 CST)
+- Metricool: TikTok `posts` / IG `reels` still 0 rows; YTVP rows for faro/cerveza/niágara still all null. Eiffel not listed yet.
+- Return YouTube Dislike API:
+  | VID | hours live | views | likes | likes/views | views/h total | Δviews last ~8 h |
+  |---|---|---|---|---|---|---|
+  | niágara (002) | ~19 | 1264 | 35 | 2.8 % | ~67 | +415 |
+  | cerveza (001) | ~24 | 1229 | 36 | 2.9 % | ~50 | +426 |
+  | faro | ~36 | 1241 | 28 | 2.3 % | ~34 | +23 (stalled) |
+- Top: niágara ≈ cerveza (both still growing ~50/h overnight). Bottom: faro (plateaued at ~1.2k after ~28 h).
+- Note: likes counts fluctuate in the API (cached); trust views more than likes.
+- Still n=3, YouTube only → tentative pattern unchanged (twist-contrast hook + concrete object/number in a short CAPS title).
 
 ## Latest read (2026-11-11 ~23:50 CST)
 - Metricool: TikTok `posts` and IG `reels` still 0 rows; YouTube YTVP rows exist for faro/cerveza/niágara but all metrics null (sync lag). Eiffel (11 Nov 19:30) not listed yet.
