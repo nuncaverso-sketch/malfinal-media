@@ -97,85 +97,94 @@
    "qa": "v3 rebuild (1 attempt + forced publish rule)"
   },
   "VID-20261110-004": {
-   "metricool_id": 424103150,
+   "metricool_id": 425183122,
    "uuid": "-895177550353314362",
    "slot": "2026-11-12T07:30:00",
    "title": "Quiso demostrar que la ventana era IRROMPIBLE 🪟",
    "project": "ventana3",
    "media": "VID-20261110-004v3.mp4",
-   "qa": "v3 rebuild (1 attempt + forced publish rule)"
+   "qa": "v3 rebuild (1 attempt + forced publish rule)",
+   "slotAt": "2026-11-12T12:00"
   },
   "VID-20261110-005": {
-   "metricool_id": 424128417,
+   "metricool_id": 425183134,
    "uuid": "8367155208976941329",
    "slot": "2026-11-12T13:00:00",
    "title": "Una ola de JARABE de 8 metros arrasó Boston 🍯",
    "project": "melaza3",
    "media": "VID-20261110-005v3.mp4",
-   "qa": "v3 rebuild (1 attempt + forced publish rule)"
+   "qa": "v3 rebuild (1 attempt + forced publish rule)",
+   "slotAt": "2026-11-12T18:00"
   },
   "VID-20261110-006": {
-   "metricool_id": 424147926,
+   "metricool_id": 425183138,
    "uuid": "-8399659931806512481",
    "slot": "2026-11-12T19:30:00",
    "title": "Este abogado GANÓ el caso… demostrándolo en sí mismo ⚖️",
    "project": "abogado3",
    "media": "VID-20261110-006v3.mp4",
-   "qa": "v3 rebuild (1 attempt + forced publish rule)"
+   "qa": "v3 rebuild (1 attempt + forced publish rule)",
+   "slotAt": "2026-11-12T20:30"
   },
   "VID-20261110-007": {
-   "metricool_id": 424171826,
+   "metricool_id": 425183146,
    "uuid": "2840333282246085581",
    "slot": "2026-11-13T07:30:00",
    "title": "Este músico murió por llevar el RITMO 🎼",
    "project": "lully3",
    "media": "VID-20261110-007v3.mp4",
-   "qa": "v3 rebuild (1 attempt + forced publish rule)"
+   "qa": "v3 rebuild (1 attempt + forced publish rule)",
+   "slotAt": "2026-11-13T12:00"
   },
   "VID-20261110-008": {
-   "metricool_id": 424191683,
+   "metricool_id": 425183155,
    "uuid": "8884635062313372359",
    "slot": "2026-11-13T13:00:00",
    "title": "Inventó 2 de las peores cosas del siglo XX… y lo mató la tercera",
    "project": "poleas3",
    "media": "VID-20261110-008v3.mp4",
-   "qa": "v3 rebuild (1 attempt + forced publish rule)"
+   "qa": "v3 rebuild (1 attempt + forced publish rule)",
+   "slotAt": "2026-11-13T18:00"
   },
   "VID-20261110-009": {
-   "metricool_id": 424217137,
+   "metricool_id": 425183163,
    "uuid": "-3832667063987846141",
    "slot": "2026-11-13T19:30:00",
    "title": "Le pusieron ALAS a un carro… y lo hicieron volar ✈️🚗",
    "project": "pinto3",
    "media": "VID-20261110-009v3.mp4",
-   "qa": "v3 rebuild (1 attempt + forced publish rule)"
+   "qa": "v3 rebuild (1 attempt + forced publish rule)",
+   "slotAt": "2026-11-13T20:30"
   },
   "VID-20261110-010": {
-   "metricool_id": 424243631,
+   "metricool_id": 425183171,
    "uuid": "-2443161876793048730",
    "slot": "2026-11-14T09:30:00",
    "title": "Su barba medía 1.4 metros… y fue lo que lo mató 🧔",
    "project": "barba3",
    "media": "VID-20261110-010v3.mp4",
-   "qa": "v3 rebuild (1 attempt + forced publish rule)"
+   "qa": "v3 rebuild (1 attempt + forced publish rule)",
+   "slotAt": "2026-11-14T11:00"
   },
   "VID-20261110-011": {
-   "metricool_id": 424271011,
+   "metricool_id": 425183176,
    "uuid": "-4743505066469406067",
    "slot": "2026-11-14T13:00:00",
    "title": "Un genio de la ciencia murió por rellenar un pollo con NIEVE 🐔❄️",
    "project": "pollo3",
    "media": "VID-20261110-011v3.mp4",
-   "qa": "v3 rebuild (1 attempt + forced publish rule)"
+   "qa": "v3 rebuild (1 attempt + forced publish rule)",
+   "slotAt": "2026-11-14T17:00"
   },
   "VID-20261110-012": {
-   "metricool_id": 424296508,
+   "metricool_id": 425183182,
    "uuid": "717286113889374008",
    "slot": "2026-11-14T19:30:00",
    "title": "Una de las primeras personas en morir por un AUTO… en 1869 🚂",
    "project": "vapor3",
    "media": "VID-20261110-012v3.mp4",
-   "qa": "v3 rebuild (1 attempt + forced publish rule)"
+   "qa": "v3 rebuild (1 attempt + forced publish rule)",
+   "slotAt": "2026-11-14T20:00"
   },
   "VID-20261110-013": {
    "metricool_id": 423833327,
@@ -193,9 +202,9 @@
  },
  "compilations": {
   "2026-W46": {
-   "metricool_id": 425175471,
+   "metricool_id": 425183193,
    "uuid": "8657832633301552976",
-   "slotAt": "2026-11-15T12:00",
+   "slotAt": "2026-11-15T13:00",
    "media": "VID-COMP-20261115.mp4",
    "thumb": "VID-COMP-20261115.jpg",
    "items": [

@@ -1,7 +1,7 @@
 # Mal Final: autopilot (scheduled task)
 
 Goal: there must ALWAYS be scheduled in Metricool every free slot for the rest of today plus the next 2 days.
-**Rhythm: 2 videos per day, at 13:00 and 19:30** (user decision, 11 Nov). Target: get each video as close to 10 as possible.
+**Rhythm: 3 videos per day** (user decision, 11 Nov evening): **Mon–Fri 12:00, 18:00, 20:30 · Sat 11:00, 17:00, 20:00 · Sun 09:00, 13:00, 19:00**. Target: get each video as close to 10 as possible.
 Each video passes through a **pre-production filter**: the reviewer, fed with the real metrics of the videos already published.
 
 ## Hard rules (from the user)
@@ -27,7 +27,7 @@ cd pipeline && bash setup.sh && cd engine && npm i --silent three@0.187.0 puppet
 
 ## 1. Inventory (Metricool)
 - blogId `8014220`, timezone `America/Mexico_City`.
-- Slots: **13:00 and 19:30** every day (07:30 no longer used).
+- Slots (America/Mexico_City): **Mon–Fri 12:00, 18:00, 20:30 · Sat 11:00, 17:00, 20:00 · Sun 09:00, 13:00, 19:00**. The Sunday 13:00 slot ALSO carries the weekly compilation (YouTube only), so it still gets a short.
 - `getScheduledPosts` from now to the end of day+2. Count the non-draft future posts.
 - `needed = free slots in that window − count`. If `needed ≤ 0`, do only step 2 and finish.
 - **Produce at most 1 video per run.** Assign it to the earliest free slot.
@@ -141,14 +141,14 @@ cp out/final.mp4 VID-YYYYMMDD-NNN.mp4 && git add VID-*.mp4 && git commit -m "VID
 4. Dashboard: in the `videos` collection add `{num, order, title, story, slotAt, status: programado, durationS, platforms}`, and in `ideas` set status `producido`.
 
 ## 7b. WEEKLY LONG COMPILATION (YouTube only, for watch hours)
-Do this in the **Saturday 14:47 run**, unless `state/posts.json → compilations` already has one for that week. It replaces producing a short in that run.
+Do this in the **Saturday afternoon run (15:47 Monterrey)**, unless `state/posts.json → compilations` already has one for that week. It replaces producing a short in that run.
 1. **Items**: the shorts published Sun–Sat of that week, plus older ones if fewer than 8, never repeating the previous compilation's #1.
    - Order them by performance from `insights.md`: worst first, **best LAST**, as #1.
    - Write an `items.json` with `{file, title (no emojis), thumb_frame}`. `file` is the raw MP4 downloaded from `main` (curl).
 2. `python3 compile/weekly.py OUT items.json` → `compilation.mp4`, `thumb.jpg`, `chapters.txt`. It takes about 15 min on 2 CPUs; run it in the background.
 3. Look at `thumb.jpg` (Read). It needs big readable text and 3 clear frames.
 4. Push `VID-COMP-YYYYMMDD.mp4` + `VID-COMP-YYYYMMDD.jpg` to `main` (blobless clone, as in step 7).
-5. `createScheduledPost` for **Sunday 12:00**, **YouTube only**:
+5. `createScheduledPost` for **Sunday 13:00**, **YouTube only**:
    - `youtubeData {type: "video", title, category: "EDUCATION", madeForKids: false, isAiGeneratedContent: true}`, plus `videoThumbnailUrl` = the jpg.
    - If it fails because of the thumbnail, retry without it.
    - Copy: hook line, `chapters.txt`, "Fuentes en cada short del canal.", "Animación hecha con apoyo de IA.", hashtags.
