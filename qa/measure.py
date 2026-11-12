@@ -100,6 +100,18 @@ M['fluidity'].update({'cuts': len(cuts), 'cut_times': cuts[:60], 'avg_shot_s': r
   'longest_static_s': round(max(runs or [0]) / fps, 2), 'mean_motion': round(float(diffs.mean()), 2), 'motion_jitter': round(jit, 2),
   'first_cut_s': cuts[0] if cuts else None})
 
+# ---------- composition: frames dominated by one flat colour (empty floor/wall) ----------
+flat = []
+cap = cv2.VideoCapture(a.video); fi = 0; step = int(fps)
+while True:
+    ok, fr_ = cap.read()
+    if not ok: break
+    if fi % step == 0:
+        sm = cv2.resize(fr_, (54, 96)); q = (sm // 24).reshape(-1, 3); _, cnt = np.unique(q, axis=0, return_counts=True)
+        fr = cnt.max() / len(q); 
+        if fr > 0.45: flat.append([round(fi / fps, 1), round(float(fr), 2)])
+    fi += 1
+M['composition'] = {'flat_frames': flat[:40], 'flat_ratio': round(len(flat) / max(1, fi // step), 2)}
 # ---------- frames for visual review ----------
 sh(f'ffmpeg -y -loglevel error -i "{a.video}" -vf "fps=1/2,scale=180:320,tile=8x{int(np.ceil(dur / 2 / 8))}" -frames:v 1 {a.out}/sheet.jpg')
 ts = [0.3, 1.0, 2.0] + list(np.linspace(4, dur - 1.5, 9))

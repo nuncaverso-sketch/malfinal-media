@@ -65,7 +65,7 @@ Then launch the reviewer subagent (general-purpose) with:
 - `plan.md`, `script.txt`, `state/insights.md`, `qa/LESSONS.md`;
 - the task: "rate 1–10 the hook, clarity of every beat, visual feasibility, and predicted potential based on the metrics. List changes."
 
-If the score is < 7, apply the changes once and move on.
+If the score is < 8, apply the changes and evaluate again (up to 2 rounds).
 
 ## 4b. A/B hooks (applies to every video)
 - Write **2 hooks**: A and B (title + on-screen text of up to 4 words).
@@ -75,8 +75,12 @@ If the score is < 7, apply the changes once and move on.
 - Record in `state/posts.json`: `hookA`, `hookB`, `burned: A|B`.
 - In step 2, compare retention and views of A vs B against the network average, and keep the winning type in `insights.md`.
 
-## 4c. Recycle what works
-- If `insights.md` has a top 3, **at least 1 of every 2 videos** repeats the mechanism or topic of the top performer, with a new story. Examples: absurd floods (beer, syrup), "survived the hard thing and died from the silly thing", "own invention", "his trick/wish came true". Also reuse its winning hook formula.
+## 4c. Recycle what works WITHOUT being repetitive (user: "don't repeat too much")
+- Recycle the **hook formula and the narrative structure** of the top performers, NOT the same topic over and over.
+- At most 1 of every 4 videos may share a mechanism with the top performer, and never two in a row.
+- Rotate country, era, setting and color palette. Don't reuse a set (street, room) that appeared in the last 3 videos.
+- The pre-production filter checks this against the last 10 titles in `state/posts.json`.
+- Old reference for mechanisms: Examples: absurd floods (beer, syrup), "survived the hard thing and died from the silly thing", "own invention", "his trick/wish came true". Also reuse its winning hook formula.
 - The other video explores a new type, so we keep learning.
 
 ## 5. Production (one project per video)
@@ -94,9 +98,9 @@ If the score is < 7, apply the changes once and move on.
 5b. **POLISH TOWARD 10 (before rendering — stills are cheap, renders are not):**
    - Launch the reviewer subagent with the contact sheet, `plan.md`, `voice/voice.wav` (it may transcribe it) and `qa/LESSONS.md`.
    - Ask it for a **1–10 score per shot** plus an overall score, and for every shot below 9, the exact change.
-   - Apply ALL the changes, render the stills again, and repeat. **Up to 3 rounds, or until the overall score is ≥ 9.**
+   - Apply ALL the changes, render the stills again, and repeat. **Up to 3 rounds, or until the overall score is ≥ 9 AND every shot ≥ 8.** It must also pass the strict tests in `qa/review_prompt.md` on the stills: silent, first second, composition, variety.
    - Only then do the full render. That keeps the final review from finding things that need a re-render.
-6. Render: `RESUME=1 node render.mjs frames 0-99999 720`.
+6. Render at **native 1080** (sharper): `RESUME=1 node render.mjs frames 0-99999 1080`. That takes about 2 s/frame, so use 9-minute chunks.
    - At 0.9 s/frame on 2 CPUs. Use background calls ≤ 2 h, or 9-minute foreground chunks.
    - Never run 2 renders in parallel.
 7. Audio: adapt the cues in `audio.py` (use `audio_example.py` as the base, with ducking already in it). Run `python3 audio.py web/timing.json voice/voice.wav audio`.

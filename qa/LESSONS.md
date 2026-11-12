@@ -33,3 +33,11 @@ Rule (user): each video gets 1 attempt + at most 1 maximized redo, then it gets 
 ## Process
 - Stills at 25 % and 80 % of each phrase BEFORE rendering + a stills review loop (up to 3 rounds, target ≥ 9).
 - Run measure.py (cheap) on every final video. Only run the reviewer agent on the first attempt of new videos.
+
+## Strict standard (11 Nov, the user didn't like how the videos looked)
+- Silent test: every shot must be understandable in 1 s with no sound.
+- Something new at least every 2.5 s; never two shots in a row with the same framing; the camera always moving with a purpose.
+- No frames of empty floor or wall (one flat color > 45 % of the image). The floor ≤ 35 % of the frame; the subject ≥ 20 % of the height.
+- Avoid flat ground: add texture or props, use a low or diagonal camera, put the horizon high or low.
+- Variety: don't repeat the mechanism, set or palette of the previous video.
+- Publishing threshold: CALIDAD ≥ 8, PEGADA ≥ 8, none < 7. Still the 1 attempt + 1 redo rule, then publish.

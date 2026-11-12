@@ -6,7 +6,7 @@ import * as P from './paint.js';
 import * as story from './story.js';
 import * as world from './world.js';
 
-const W = +(new URLSearchParams(location.search).get('w') || 720), H = Math.round(W * 16 / 9);
+const W = +(new URLSearchParams(location.search).get('w') || 1080), H = Math.round(W * 16 / 9);
 const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
 renderer.setSize(W, H); renderer.setPixelRatio(1);
 renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.VSMShadowMap;
@@ -35,7 +35,7 @@ const box = (w, h, d, mat, pos, rot, parent, ink = 1) => {
 const R = (s) => { const x = Math.sin(s * 9301 + 49297) * 233280; return x - Math.floor(x); };
 const ctex = (w, h, fn, rep = [1, 1]) => { const c = document.createElement('canvas'); c.width = w; c.height = h; fn(c.getContext('2d'), w, h); const t = new THREE.CanvasTexture(c); t.wrapS = t.wrapT = THREE.RepeatWrapping; t.repeat.set(...rep); t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 4; return t; };
 
-const sun = new THREE.DirectionalLight(0xffffff, 2.2); sun.castShadow = true; sun.shadow.mapSize.set(1024, 1024); sun.shadow.radius = 7; sun.shadow.blurSamples = 16;
+const sun = new THREE.DirectionalLight(0xffffff, 2.2); sun.castShadow = true; sun.shadow.mapSize.set(2048, 2048); sun.shadow.radius = 7; sun.shadow.blurSamples = 16;
 Object.assign(sun.shadow.camera, { left: -16, right: 16, top: 16, bottom: -16, near: 0.5, far: 160 }); sun.shadow.bias = -0.0004; scene.add(sun, sun.target);
 const hemi = new THREE.HemisphereLight(0xffffff, 0x444444, 1.0); scene.add(hemi);
 const fill = new THREE.PointLight(0xffb060, 0, 16, 1.5); scene.add(fill);
@@ -103,7 +103,7 @@ window.renderFrame = (f) => {
   for (const o of cards.values()) o.g.visible = false;
   for (const a of story.actorsAt(f)) drawActor(a, f);
   renderer.render(scene, cam);
-  out2d.filter = Wd.sepia ? `sepia(${Wd.sepia}) contrast(1.15) brightness(0.95)` : 'none';
+  out2d.filter = Wd.sepia ? `sepia(${Wd.sepia}) contrast(1.15) brightness(0.95)` : 'contrast(1.06) saturate(1.14)';
   out2d.drawImage(renderer.domElement, 0, 0); out2d.filter = 'none';
   if (Wd.sepia) { out2d.fillStyle = 'rgba(0,0,0,0.5)'; for (let i = 0; i < 6; i++) { const x = ((f * 37 + i * 211) % W); out2d.fillRect(x, 0, 1.5, H); } out2d.fillStyle = 'rgba(20,10,0,0.9)'; out2d.fillRect(0, 0, W, H * 0.06); out2d.fillRect(0, H * 0.94, W, H * 0.06);
     for (let i = 0; i < 9; i++) { out2d.fillStyle = 'rgba(230,220,190,0.9)'; out2d.fillRect(i * W / 9 + 10, H * 0.015, W / 18, H * 0.03); out2d.fillRect(i * W / 9 + 10, H * 0.955, W / 18, H * 0.03); } }

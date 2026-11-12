@@ -33,7 +33,7 @@ SCALE (1-10, one line each): A Audio · B Subtitles · C Render/3D · D Smoothne
 CALIDAD = average of A-E. PEGADA = average of F-G.
 
 DECISION:
-- PUBLICAR: CALIDAD ≥ 7.0, PEGADA ≥ 6.5 and none < 5.
+- PUBLICAR: CALIDAD ≥ 8.0, PEGADA ≥ 8.0 and no category < 7 (strict standard requested by the user).
 - AJUSTES MENORES: fixable in under 30 min without a re-render.
 - REHACER: anything else.
 Be strict.
