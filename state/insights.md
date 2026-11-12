@@ -1,8 +1,19 @@
 # Insights (analytics → rules)
 
-Updated: 2026-11-12 07:55 (America/Mexico_City). YouTube views/likes only (3 videos); no retention data yet → previous rules stay, plus tentative notes below.
+Updated: 2026-11-12 15:50 (America/Mexico_City). YouTube views/likes only (3 videos); no retention data yet → previous rules stay.
 
-## Latest read (2026-11-12 ~07:55 CST)
+## Latest read (2026-11-12 ~15:50 CST)
+- Metricool: TikTok `posts` / IG `reels` still 0 rows; YTVP rows (faro, cerveza, niágara, now also Eiffel) all null. Ventana (12 Nov 12:00) not listed yet.
+- Return YouTube Dislike API:
+  | VID | hours live | views | likes | Δviews last ~8 h |
+  |---|---|---|---|---|
+  | niágara (002) | ~27 | 1329 | 35 | +65 |
+  | cerveza (001) | ~32 | 1285 | 36 | +56 |
+  | faro | ~44 | 1254 | 28 | +13 |
+- All three have plateaued at ~1.25–1.35k on YouTube (Shorts feed push ended ~24 h). Ranking unchanged: niágara ≥ cerveza > faro. Still n=3 → rules unchanged.
+- Next run: find YT ids for Eiffel/ventana (from Metricool post links once published) to grow n.
+
+## Previous read (2026-11-12 ~07:55 CST)
 - Metricool: TikTok `posts` / IG `reels` still 0 rows; YTVP rows for faro/cerveza/niágara still all null. Eiffel not listed yet.
 - Return YouTube Dislike API:
   | VID | hours live | views | likes | likes/views | views/h total | Δviews last ~8 h |
