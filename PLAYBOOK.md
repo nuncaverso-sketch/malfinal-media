@@ -140,6 +140,22 @@ cp out/final.mp4 VID-YYYYMMDD-NNN.mp4 && git add VID-*.mp4 && git commit -m "VID
    - YouTube `type: short`, category `EDUCATION`, `madeForKids: false`.
 4. Dashboard: in the `videos` collection add `{num, order, title, story, slotAt, status: programado, durationS, platforms}`, and in `ideas` set status `producido`.
 
+## 7b. WEEKLY LONG COMPILATION (YouTube only, for watch hours)
+Do this in the **Saturday 14:47 run**, unless `state/posts.json → compilations` already has one for that week. It replaces producing a short in that run.
+1. **Items**: the shorts published Sun–Sat of that week, plus older ones if fewer than 8, never repeating the previous compilation's #1.
+   - Order them by performance from `insights.md`: worst first, **best LAST**, as #1.
+   - Write an `items.json` with `{file, title (no emojis), thumb_frame}`. `file` is the raw MP4 downloaded from `main` (curl).
+2. `python3 compile/weekly.py OUT items.json` → `compilation.mp4`, `thumb.jpg`, `chapters.txt`. It takes about 15 min on 2 CPUs; run it in the background.
+3. Look at `thumb.jpg` (Read). It needs big readable text and 3 clear frames.
+4. Push `VID-COMP-YYYYMMDD.mp4` + `VID-COMP-YYYYMMDD.jpg` to `main` (blobless clone, as in step 7).
+5. `createScheduledPost` for **Sunday 12:00**, **YouTube only**:
+   - `youtubeData {type: "video", title, category: "EDUCATION", madeForKids: false, isAiGeneratedContent: true}`, plus `videoThumbnailUrl` = the jpg.
+   - If it fails because of the thumbnail, retry without it.
+   - Copy: hook line, `chapters.txt`, "Fuentes en cada short del canal.", "Animación hecha con apoyo de IA.", hashtags.
+   - Title: e.g. "Las N muertes más absurdas de la historia (historias reales)".
+   - It counts toward the Metricool limit (1b). If only 1 post is left, prioritize the short.
+6. Record it in `state/posts.json → compilations`.
+
 ## 8. Save what was learned
 Commit and push the `pipeline` branch with:
 - `state/insights.md`
