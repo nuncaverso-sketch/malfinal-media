@@ -41,15 +41,18 @@ HL = set()
 for p in sorted(set(w['p'] for w in ws)):
     cand = sorted({core(w['w']) for w in ws if w['p'] == p and len(core(w['w'])) >= 6 and core(w['w']) not in STOP}, key=len, reverse=True)[:1]
     HL |= set(cand)
+RICK = os.environ.get('STYLE', 'rick') == 'rick'
 chunks = []
 for p in sorted(set(w['p'] for w in ws)):
     pw = [w for w in ws if w['p'] == p]; cur = []
     for k, w in enumerate(pw):
         cur.append(w)
-        if k == len(pw) - 1 or len(cur) >= 4 or (re.search(r'[.,:;!?…]$', w['w']) and len(cur) >= 2): chunks.append(cur); cur = []
+        mx = 2 if RICK else 4
+        if RICK and len(core(w['w'])) >= 8: mx = 1
+        if k == len(pw) - 1 or len(cur) >= mx or (re.search(r'[.,:;!?…]$', w['w']) and (len(cur) >= 2 or RICK)): chunks.append(cur); cur = []
 merged = []
 for c in chunks:
-    if merged and merged[-1][0]['p'] == c[0]['p'] and (c[-1]['e'] - c[0]['s'] < 0.5 or len(c) == 1) and len(merged[-1]) + len(c) <= 5: merged[-1] += c
+    if merged and merged[-1][0]['p'] == c[0]['p'] and (c[-1]['e'] - c[0]['s'] < (0.28 if RICK else 0.5) or (len(c) == 1 and not RICK)) and len(merged[-1]) + len(c) <= (3 if RICK else 5): merged[-1] += c
     else: merged.append(c)
 hdr0 = """[Script Info]
 ScriptType: v4.00+
@@ -65,13 +68,17 @@ Style: H,Poppins,88,&H00FFFFFF,&H00FFFFFF,&H00101010,&H80000000,-1,0,0,0,100,100
 [Events]
 Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
 """
+if RICK: hdr0 = hdr0.replace("Style: C,Poppins,96,&H00FFFFFF,&H00FFFFFF,&H00101010,&H80000000,-1,0,0,0,100,100,0,0,1,9,3,2,70,70,560,1", "Style: C,Poppins,92,&H00FFFFFF,&H00FFFFFF,&H00101010,&H90000000,-1,0,0,0,100,100,0,0,1,8,3,2,60,60,600,1")
 hdr = hdr0.replace("int(os.environ.get('HOOK_Y','250'))", os.environ.get('HOOK_Y', '250'))
 out = []
 for k, c in enumerate(merged):
     s = c[0]['s'] - 0.05
     nxt = merged[k + 1][0]['s'] - 0.05 if k + 1 < len(merged) else c[-1]['e'] + 0.6
     e = min(nxt, max(c[-1]['e'] + 0.25, s + 0.5))
-    txt = ' '.join(('{\\c&H3CD2FF&}' + w['w'].upper() + '{\\c&HFFFFFF&}') if (w.get('num') or core(w['w']) in HL) else w['w'].upper() for w in c)
+    if RICK:
+        clean = lambda x: re.sub(r'[.,:;…]+$', '', x)
+        txt = '{\\fscx82\\fscy82\\t(0,90,\\fscx100\\fscy100)}' + ' '.join(('{\\c&H3CD2FF&}' + re.sub(r'[.,:;…]+$', '', w['w']) + '{\\c&HFFFFFF&}') if w.get('num') else clean(w['w']) for w in c)
+    else: txt = ' '.join(('{\\c&H3CD2FF&}' + w['w'].upper() + '{\\c&HFFFFFF&}') if (w.get('num') or core(w['w']) in HL) else w['w'].upper() for w in c)
     tag = '{\\an8\\pos(540,300)}' if c[0]['p'] in TOP else ''
     out.append(f"Dialogue: 0,{ts(s)},{ts(e)},C,,0,0,0,,{tag}{txt}")
 if hook: out.append("Dialogue: 1,0:00:00.00,0:00:02.80,H,,0,0,0,,{\\fad(0,200)}" + hook.replace('|', '\\N'))

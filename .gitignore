@@ -1,3 +1,8 @@
 __pycache__/
 *.pyc
 node_modules/
+assets/
+engine2/web/node_modules
+engine2/web/assets
+engine2/node_modules
+engine2/web/scene.js
