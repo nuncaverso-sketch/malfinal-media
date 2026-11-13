@@ -99,31 +99,21 @@ If the score is < 8, apply the changes and evaluate again (up to 2 rounds).
 - Old reference for mechanisms: Examples: absurd floods (beer, syrup), "survived the hard thing and died from the silly thing", "own invention", "his trick/wish came true". Also reuse its winning hook formula.
 - The other video explores a new type, so we keep learning.
 
-## 5. Production (one project per video)
-1. `bash engine/new_project.sh /home/claude/work/VID-XXX 8810` → `cd` into it and copy `script.txt` there.
-2. TTS: `python3 ../../pipeline/tts/gen_blend.py script.txt frases` (resumable; about 1 min per line on CPU). Check it with Whisper: key words must be correct.
-3. Voice: `python3 assemble_voice.py` creates `voice/voice.wav` and `web/timing.json`.
-4. Write `web/world.js` + `web/story.js` following `examples/` (cerveza, barba, eiffel) and **the whole checklist in `qa/LESSONS.md`**:
-   - hook with action in frame 0;
-   - every key action ON screen;
-   - camera never inside geometry; check the horizontal framing;
-   - no smiles in tragedies;
-   - animated fluids;
-   - loop ending.
-5. Stills: `node render.mjs st1 "<frames at 25% and 80% of each phrase>" 360`. Make a contact sheet.
-5b. **POLISH TOWARD 10 (before rendering — stills are cheap, renders are not):**
-   - Launch the reviewer subagent with the contact sheet, `plan.md`, `voice/voice.wav` (it may transcribe it) and `qa/LESSONS.md`.
-   - Ask it for a **1–10 score per shot** plus an overall score, and for every shot below 9, the exact change.
-   - Apply ALL the changes, render the stills again, and repeat. **Up to 3 rounds, or until the overall score is ≥ 9 AND every shot ≥ 8.** It must also pass the strict tests in `qa/review_prompt.md` on the stills: silent, first second, composition, variety.
-   - Only then do the full render. That keeps the final review from finding things that need a re-render.
-6. Render at **native 1080** (sharper): `RESUME=1 node render.mjs frames 0-99999 1080`. That takes about 2 s/frame, so use 9-minute chunks.
-   - At 0.9 s/frame on 2 CPUs. Use background calls ≤ 2 h, or 9-minute foreground chunks.
-   - Never run 2 renders in parallel.
-7. Audio: adapt the cues in `audio.py` (use `audio_example.py` as the base, with ducking already in it). Run `python3 audio.py web/timing.json voice/voice.wav audio`.
-8. Subtitles: `python3 ../../pipeline/qa/words_gen.py $(pwd)` and `HOOK_Y=700 python3 ../../pipeline/qa/captions_gen.py $(pwd) "HOOK|TEXT"`.
-   - If a shot has a face in the center: `TOP_PHRASES=n,m`.
-9. `bash finish.sh` creates `out/final.mp4`.
-10. Measure: `python3 ../../pipeline/qa/measure.py out/final.mp4 script.txt qa --voice voice/voice.wav --timing web/timing.json`.
+## 5. Production — ENGINE v2 ("pro" look, user decision 12 Nov: like RicksClips but in Spanish)
+Reference look: RicksClips3000: rich detailed 3D sets, warm/cool cinematic light, shallow depth of field, simple round-head characters with ink outlines, 1–2 word captions, a new shot every ~2–3 s.
+Setup once per session: `bash engine2/fetch_assets.sh` (CC0 Quaternius kits + Poly Haven HDRIs) and make sure `engine2/web/node_modules` → `engine/node_modules`.
+1. Voice (unchanged, old engine tools): `bash engine/new_project.sh /home/claude/work/VID-XXX 8810` → `script.txt` → `tts/gen_blend.py` → `assemble_voice.py` (gives `voice/voice.wav` + `web/timing.json`) → `audio.py` (SFX cues + music, ducked) → `audio/mix.wav` → master to −14 LUFS as `finish.sh` does (`audio/final.wav`). `words_gen.py` for `words.json`.
+2. Visuals: `bash engine2/new_project2.sh /home/claude/v2/NAME`; copy `web/timing.json` and `words.json` into it.
+3. Write `web/scene.js` (copy the structure of `engine2/examples_lully_scene.js`):
+   - `build(K)`: `await K.preloadEnvs(); await K.timing();` then build each SET 200 m apart on x (sets farther than 140 m from the camera are culled automatically).
+   - Assets: `await K.placeH('<pack>/<Model>', pos, rotY, heightMeters, {byW, tint})` — list models with `ls assets/quaternius/<pack>` (medieval_village_pack, house_interior_pack, buildings_pack_3, nature_pack, street_pack, rpg_items_pack, survival_pack, animals_pack, crops_pack, modular_medieval_buildings_pack…). Primitives: `K.box / K.cyl / K.sph / K.plane / K.tex(canvas)`; lights `K.pointLight` (few!).
+   - Characters: `K.makeChar(K.scene, {shirt, pants, belt, buttons, tie, cape, hat:'top|bowler|cap|helmet|hard|tricorn|crown|chef|wig', hatColor, hair, mustache, beard, glasses, seed})`; per frame `K.poseChar(C, {pos, yaw, walk, run, sit, arms:'point|up|wave|akimbo|shrug|hold|hold2|cross|reach|think|fists|flail|drink|hammer', lean, look, expr:'neutral|happy|laugh|proud|smug|shock|scared|worried|sad|angry|tired', talk, tremble, fall, bounce, sweat, blush}, f)`; props via `C.hold(obj, offset, rot)`.
+   - Per frame: pick the phrase `K.at(f)` / progress `K.u(f, i)`; light `K.preset('day|golden|dusk|night|interior|candle|storm', overrides)`; camera `K.move(A, B, u, shake, f)` where A/B come from **`K.frame([feet positions], {yaw, pitch, h, lookY, push, pad})` (auto-fits 9:16 — use it for every character shot)**; `K.focusOn(point)` for depth of field; `K.grade.flash/black/sat/vig`.
+   - `hideAll()` at the top of `frame()` must RESET every object you move/scale in any shot (positions, visibility, parents) — a missed reset broke the wings in VID-009.
+4. Stills: `node render.mjs st "<frames at 30% and 85% of each phrase>" 360 PORT` + `python3 engine2/sheet.py st sheet.jpg 11` → Read the sheet. Fix: camera inside geometry, characters cut by the 9:16 frame, the key action not visible, giant/tiny props, dark shots.
+   - **Polish toward 10 (stills are cheap, renders are not):** reviewer subagent with the sheet + `plan.md` + `qa/LESSONS.md`; 1–10 per shot + overall; apply every change; up to 3 rounds or until overall ≥ 9 and every shot ≥ 8.
+5. Render: `RESUME=1 node render.mjs frames 0-99999 720 PORT` in ONE background call (≈1.7 s/frame → 50–65 min for 60–70 s). Never two renders at once; don't run stills while a render is going (it halves the speed).
+6. Captions: `python3 qa/captions_gen.py PROJ` (default STYLE=rick: 1–2 words, no hook title). `bash engine2/finish2.sh PROJ audio/final.wav` → `out/final.mp4` (1080×1920, ≤ ~55 MB so GitHub accepts it).
 
 ## 6. Post-production review (once)
 Run the reviewer with `qa/review_prompt.md`.
