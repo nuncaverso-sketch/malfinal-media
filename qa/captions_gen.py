@@ -68,7 +68,7 @@ Style: H,Poppins,88,&H00FFFFFF,&H00FFFFFF,&H00101010,&H80000000,-1,0,0,0,100,100
 [Events]
 Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
 """
-if RICK: hdr0 = hdr0.replace("Style: C,Poppins,96,&H00FFFFFF,&H00FFFFFF,&H00101010,&H80000000,-1,0,0,0,100,100,0,0,1,9,3,2,70,70,560,1", "Style: C,Poppins,92,&H00FFFFFF,&H00FFFFFF,&H00101010,&H90000000,-1,0,0,0,100,100,0,0,1,8,3,2,60,60,600,1")
+if RICK: hdr0 = hdr0.replace("Style: C,Poppins,96,&H00FFFFFF,&H00FFFFFF,&H00101010,&H80000000,-1,0,0,0,100,100,0,0,1,9,3,2,70,70,560,1", "Style: C,Poppins,106,&H00FFFFFF,&H00FFFFFF,&H00101010,&H90000000,-1,0,0,0,100,100,0,0,1,9,3,2,50,50,600,1")
 hdr = hdr0.replace("int(os.environ.get('HOOK_Y','250'))", os.environ.get('HOOK_Y', '250'))
 out = []
 for k, c in enumerate(merged):
