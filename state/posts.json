@@ -128,15 +128,17 @@
    "status": "draft_pending_v2"
   },
   "VID-20261110-007": {
-   "metricool_id": 426450313,
+   "metricool_id": 426486830,
    "uuid": "2840333282246085581",
    "slot": "2026-11-13T07:30:00",
    "title": "Este músico murió por llevar el RITMO 🎼",
    "project": "lully3",
-   "media": "VID-20261110-007v3.mp4",
+   "media": "VID-20261110-007v4.mp4",
    "qa": "v3 rebuild (1 attempt + forced publish rule)",
-   "slotAt": null,
-   "status": "draft_pending_v2"
+   "slotAt": "2026-11-13T12:00",
+   "status": "programado",
+   "engine": "v2",
+   "project_v2": "/home/claude/v2/lully"
   },
   "VID-20261110-008": {
    "metricool_id": 426450321,
