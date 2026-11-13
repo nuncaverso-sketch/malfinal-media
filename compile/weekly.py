@@ -53,10 +53,9 @@ if not THUMB_ONLY:
         m, s = divmod(int(t), 60); chapters.append(f'{m}:{s:02d} #{N - i} {it["title"]}'); t += dur(out); segs.append(out)
     outro = card(f'{OUT}/outro', '¿CUÁL FUE LA MÁS ABSURDA?', 'Comenta · Suscríbete para más', 5.0); segs.append(outro); t += 5.0
     open(f'{OUT}/list.txt', 'w').write(''.join(f"file '{os.path.abspath(s)}'\n" for s in segs))
-    # GitHub rejects files > 100 MB -> 2-pass to ~94 MB (bitrate from duration). tune animation keeps cartoon edges clean.
+    # GitHub rejects files > 100 MB -> capped single-pass ABR to ~94 MB (2-pass broke on long concats) (bitrate from duration). tune animation keeps cartoon edges clean.
     vb = max(500, int(94e6 * 8 / t / 1000) - 128)
-    sh(f'ffmpeg -y -loglevel error -f concat -safe 0 -i {OUT}/list.txt -c:v libx264 -preset medium -tune animation -b:v {vb}k -pass 1 -passlogfile {OUT}/p2 -an -f null /dev/null')
-    sh(f'ffmpeg -y -loglevel error -f concat -safe 0 -i {OUT}/list.txt -c:v libx264 -preset medium -tune animation -b:v {vb}k -maxrate {vb*2}k -bufsize {vb*4}k -pass 2 -passlogfile {OUT}/p2 -c:a aac -b:a 128k -af loudnorm=I=-14:TP=-1.5:LRA=9 -movflags +faststart {OUT}/compilation.mp4')
+    sh(f'ffmpeg -y -loglevel error -f concat -safe 0 -i {OUT}/list.txt -c:v libx264 -preset medium -tune animation -b:v {vb}k -maxrate {int(vb*1.4)}k -bufsize {vb*2}k -c:a aac -b:a 128k -af loudnorm=I=-14:TP=-1.5:LRA=9 -movflags +faststart {OUT}/compilation.mp4')
     open(f'{OUT}/chapters.txt', 'w').write('\n'.join(chapters))
 # ---- thumbnail 1280x720: hero frame + 2 tilted cards + huge text. Items may set "thumb": seconds (pick visually loud frames:
 # the absurd object/disaster, a shocked face; no subtitles -> we crop y 150..1200 of the 9:16 frame)
