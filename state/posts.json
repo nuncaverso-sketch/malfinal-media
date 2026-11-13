@@ -117,15 +117,16 @@
    "slotAt": "2026-11-12T18:00"
   },
   "VID-20261110-006": {
-   "metricool_id": 426449930,
+   "metricool_id": 426698481,
    "uuid": "-8399659931806512481",
    "slot": "2026-11-12T19:30:00",
    "title": "Este abogado GANÓ el caso… demostrándolo en sí mismo ⚖️",
    "project": "abogado3",
-   "media": "VID-20261110-006v3.mp4",
+   "media": "VID-20261110-006v4.mp4",
    "qa": "v3 rebuild (1 attempt + forced publish rule)",
-   "slotAt": null,
-   "status": "draft_pending_v2"
+   "slotAt": "2026-11-15T09:00",
+   "status": "programado",
+   "engine": "v2"
   },
   "VID-20261110-007": {
    "metricool_id": 426486830,
