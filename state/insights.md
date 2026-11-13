@@ -1,6 +1,7 @@
 # Insights (analytics → rules)
 
-Updated: 2026-11-12 23:50 (America/Mexico_City). No new Metricool data; RYD views plateaued → rules unchanged.
+Updated: 2026-11-13 16:20 (America/Mexico_City). Metricool still returns null YTVP metrics and 0 TikTok rows → insufficient new data, rules unchanged (Studio data below still rules).
+- 2026-11-13 15:47 run: VID-015 Hunley (own invention / tested it himself) scheduled Sun 15 19:00; Tycho moved to 13:00 to avoid adjacency with the lawyer video. Metricool 16/20 used.
 - 2026-11-13 07:50 run ABORTED: Metricool connector failed to connect (CONNECT_TIMEOUT). No inventory, no video produced, count unchanged (14/20).
 
 

@@ -213,19 +213,45 @@
   "VID-20261115-014": {
    "project": "/home/claude/v2/tycho",
    "title": "Este astrónomo tenía NARIZ DE METAL… y lo mató la cortesía 👃",
-   "metricool_id": 427224263,
+   "metricool_id": 427588590,
    "uuid": "-3182287624977233691",
-   "slotAt": "2026-11-15T19:00",
+   "slotAt": "2026-11-15T13:00",
    "status": "programado",
    "media": "VID-20261115-014.mp4",
    "engine": "v2.1-rick",
    "hookA": "Este astrónomo tenía NARIZ DE METAL… y lo mató la cortesía",
-   "hookB": "Murió por no levantarse de la mesa"
+   "hookB": "Murió por no levantarse de la mesa",
+   "note": "moved 19:00→13:00 on 13 Nov so the Hunley short (own-invention mechanism) is not adjacent to the lawyer video (09:00)"
+  },
+  "VID-20261115-015": {
+   "project": "/home/claude/v2/hunley",
+   "title": "Su SUBMARINO ya había fallado… y se subió él mismo 🌊",
+   "metricool_id": 427588680,
+   "uuid": "-2316692729028067145",
+   "slotAt": "2026-11-15T19:00",
+   "status": "programado",
+   "media": "VID-20261115-015.mp4",
+   "engine": "v2.1-rick",
+   "hookA": "Su SUBMARINO ya había fallado… y se subió él mismo",
+   "hookB": "Probó su submarino MORTAL él mismo… y no volvió",
+   "burned": "B (sign YA SE HUNDIÓ)",
+   "durationS": 66.9,
+   "story": "H. L. Hunley, Charleston 1863-64",
+   "scores": {
+    "preprod": 8,
+    "stills": 6.5,
+    "post_v1": {
+     "CALIDAD": 6.8,
+     "PEGADA": 7.0,
+     "verdict": "REHACER"
+    },
+    "post_v2": "redo applied (partial re-render of 11 phrases), published per 1 attempt + 1 redo rule"
+   }
   }
  },
- "next_num": 15,
+ "next_num": 16,
  "metricool_month_count": {
-  "2026-11": 15
+  "2026-11": 16
  },
  "compilations": {
   "2026-W46": {

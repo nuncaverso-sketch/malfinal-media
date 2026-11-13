@@ -24,13 +24,16 @@ Rule (user): each video gets 1 attempt + at most 1 maximized redo, then it gets 
 7. Fluids (water, beer, syrup): animated (bobbing, foam moving, particles), never a static slab.
 8. No objects close to the camera covering it (scrolls, logs, foam).
 9. Ending with a loop: the last shot cuts to the hook shot.
-10. Recognizable objects: the crown on the head, iron that looks like iron, candles with a flame.
+10. On-screen numbers must match the voice (voice "siete hombres" → sign "HUNLEY + 7", not "8 HOMBRES").
+11. A beard on the round-head character reads as a wide grin: skip it when the plan wants a serious/proud face.
+12. Recognizable objects: the crown on the head, iron that looks like iron, candles with a flame.
 
 ## Length and A/B
 - 62–75 s (monetization). Never under 61 s.
 - 2 hooks per video (A: YouTube/Facebook, B: TikTok/Instagram).
 
 ## Process
+- Render watchdog: swiftshader Chrome can hang mid-render (protocol timeout); run renders through a retry loop (timeout per pass + RESUME=1) and re-render only the changed phrase ranges on a redo.
 - Stills at 25 % and 80 % of each phrase BEFORE rendering + a stills review loop (up to 3 rounds, target ≥ 9).
 - Run measure.py (cheap) on every final video. Only run the reviewer agent on the first attempt of new videos.
 
