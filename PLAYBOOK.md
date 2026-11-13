@@ -94,7 +94,7 @@ If the score is < 8, apply the changes and evaluate again (up to 2 rounds).
 - The other video explores a new type, so we keep learning.
 
 ## 5. Production — ENGINE v2 ("pro" look, user decision 12 Nov: like RicksClips but in Spanish)
-Reference look: RicksClips3000: rich detailed 3D sets, warm/cool cinematic light, shallow depth of field, simple round-head characters with ink outlines, 1–2 word captions, a new shot every ~2–3 s.
+**Read `qa/RICK_STYLE.md` first (mandatory style guide).** Reference example: `engine2/examples/tycho.js`. Reference look: RicksClips3000: rich detailed 3D sets, warm/cool cinematic light, shallow depth of field, simple round-head characters with ink outlines, 1–2 word captions, a new shot every ~2–3 s.
 Setup once per session: `bash engine2/fetch_assets.sh` (CC0 Quaternius kits + Poly Haven HDRIs) and make sure `engine2/web/node_modules` → `engine/node_modules`.
 1. Voice (unchanged, old engine tools): `bash engine/new_project.sh /home/claude/work/VID-XXX 8810` → `script.txt` → `tts/gen_blend.py` → `assemble_voice.py` (gives `voice/voice.wav` + `web/timing.json`) → `audio.py` (SFX cues + music, ducked) → `audio/mix.wav` → master to −14 LUFS as `finish.sh` does (`audio/final.wav`). `words_gen.py` for `words.json`.
 2. Visuals: `bash engine2/new_project2.sh /home/claude/v2/NAME`; copy `web/timing.json` and `words.json` into it.
