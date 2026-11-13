@@ -153,15 +153,16 @@
    "engine": "v2"
   },
   "VID-20261110-009": {
-   "metricool_id": 426450329,
+   "metricool_id": 426551523,
    "uuid": "-3832667063987846141",
    "slot": "2026-11-13T19:30:00",
    "title": "Le pusieron ALAS a un carro… y lo hicieron volar ✈️🚗",
    "project": "pinto3",
-   "media": "VID-20261110-009v3.mp4",
+   "media": "VID-20261110-009v4.mp4",
    "qa": "v3 rebuild (1 attempt + forced publish rule)",
-   "slotAt": null,
-   "status": "draft_pending_v2"
+   "slotAt": "2026-11-13T20:30",
+   "status": "programado",
+   "engine": "v2"
   },
   "VID-20261110-010": {
    "metricool_id": 426450337,
