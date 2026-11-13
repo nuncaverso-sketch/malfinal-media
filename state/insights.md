@@ -1,6 +1,6 @@
 # Insights (analytics → rules)
 
-Updated: 2026-11-12 15:50 (America/Mexico_City). YouTube views/likes only (3 videos); no retention data yet → previous rules stay.
+Updated: 2026-11-12 23:50 (America/Mexico_City). No new Metricool data; RYD views plateaued → rules unchanged.
 
 
 ## REAL YouTube Studio data (screenshots from the user, 12 Nov 17:24) — HIGHEST PRIORITY
@@ -21,7 +21,12 @@ Updated: 2026-11-12 15:50 (America/Mexico_City). YouTube views/likes only (3 vid
 7. KPI targets to judge future videos: stayed ≥ 60 %, avg view ≥ 35 s, ≥ 1 sub per 500 views.
 8. Topics: "survived the impossible / died from something silly" and "own invention killed him" first (niágara, ventana top on stayed/avg).
 
-## Latest read (2026-11-12 ~15:50 CST)
+## Latest read (2026-11-12 ~23:50 CST, run during PAUSE — analytics only)
+- Metricool: TikTok `posts` / IG `reels` 0 rows; YTVP rows (faro, cerveza, niágara, Eiffel) still all null.
+- RYD API: faro 1276 v / 28 l; cerveza 1285 / 36 (unchanged, cached); niágara 1329 / 35 (unchanged). Plateau confirmed; rules unchanged (Studio data above still rules).
+- Still missing YT ids for Eiffel/ventana/jarabe.
+
+## Previous read (2026-11-12 ~15:50 CST)
 - Metricool: TikTok `posts` / IG `reels` still 0 rows; YTVP rows (faro, cerveza, niágara, now also Eiffel) all null. Ventana (12 Nov 12:00) not listed yet.
 - Return YouTube Dislike API:
   | VID | hours live | views | likes | Δviews last ~8 h |
