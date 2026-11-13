@@ -165,15 +165,16 @@
    "engine": "v2"
   },
   "VID-20261110-010": {
-   "metricool_id": 426450337,
+   "metricool_id": 426575408,
    "uuid": "-2443161876793048730",
    "slot": "2026-11-14T09:30:00",
    "title": "Su barba medía 1.4 metros… y fue lo que lo mató 🧔",
    "project": "barba3",
-   "media": "VID-20261110-010v3.mp4",
+   "media": "VID-20261110-010v4.mp4",
    "qa": "v3 rebuild (1 attempt + forced publish rule)",
-   "slotAt": null,
-   "status": "draft_pending_v2"
+   "slotAt": "2026-11-14T11:00",
+   "status": "programado",
+   "engine": "v2"
   },
   "VID-20261110-011": {
    "metricool_id": 426450346,
