@@ -141,15 +141,16 @@
    "project_v2": "/home/claude/v2/lully"
   },
   "VID-20261110-008": {
-   "metricool_id": 426450321,
+   "metricool_id": 426509420,
    "uuid": "8884635062313372359",
    "slot": "2026-11-13T13:00:00",
    "title": "Inventó 2 de las peores cosas del siglo XX… y lo mató la tercera",
    "project": "poleas3",
-   "media": "VID-20261110-008v3.mp4",
+   "media": "VID-20261110-008v4.mp4",
    "qa": "v3 rebuild (1 attempt + forced publish rule)",
-   "slotAt": null,
-   "status": "draft_pending_v2"
+   "slotAt": "2026-11-13T18:00",
+   "status": "programado",
+   "engine": "v2"
   },
   "VID-20261110-009": {
    "metricool_id": 426450329,
