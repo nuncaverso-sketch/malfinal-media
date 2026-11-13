@@ -1,6 +1,7 @@
 # Insights (analytics → rules)
 
 Updated: 2026-11-12 23:50 (America/Mexico_City). No new Metricool data; RYD views plateaued → rules unchanged.
+- 2026-11-13 07:50 run ABORTED: Metricool connector failed to connect (CONNECT_TIMEOUT). No inventory, no video produced, count unchanged (14/20).
 
 
 ## REAL YouTube Studio data (screenshots from the user, 12 Nov 17:24) — HIGHEST PRIORITY
