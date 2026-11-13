@@ -1,11 +1,5 @@
 # Mal Final: autopilot (scheduled task)
 
-> ## ⏸ PAUSE (12 Nov 20:10, user request): MIGRATION TO ENGINE v2 IN PROGRESS
-> The user asked to switch everything to the new "pro" look (engine2/). While this banner is here:
-> do ONLY step 2 (analytics → insights.md) and step 8 (commit). Do NOT produce, schedule, move or delete posts,
-> even if slots look empty (queued posts were turned into drafts on purpose and are being re-rendered by the main session).
-> The main session removes this banner when engine v2 + the new PLAYBOOK are ready.
-
 Goal: there must ALWAYS be scheduled in Metricool every free slot for the rest of today plus the next 2 days.
 **Rhythm: 3 videos per day** (user decision, 11 Nov evening): **Mon–Fri 12:00, 18:00, 20:30 · Sat 11:00, 17:00, 20:00 · Sun 09:00, 13:00, 19:00**. Target: get each video as close to 10 as possible.
 Each video passes through a **pre-production filter**: the reviewer, fed with the real metrics of the videos already published.
@@ -104,7 +98,7 @@ Reference look: RicksClips3000: rich detailed 3D sets, warm/cool cinematic light
 Setup once per session: `bash engine2/fetch_assets.sh` (CC0 Quaternius kits + Poly Haven HDRIs) and make sure `engine2/web/node_modules` → `engine/node_modules`.
 1. Voice (unchanged, old engine tools): `bash engine/new_project.sh /home/claude/work/VID-XXX 8810` → `script.txt` → `tts/gen_blend.py` → `assemble_voice.py` (gives `voice/voice.wav` + `web/timing.json`) → `audio.py` (SFX cues + music, ducked) → `audio/mix.wav` → master to −14 LUFS as `finish.sh` does (`audio/final.wav`). `words_gen.py` for `words.json`.
 2. Visuals: `bash engine2/new_project2.sh /home/claude/v2/NAME`; copy `web/timing.json` and `words.json` into it.
-3. Write `web/scene.js` (copy the structure of `engine2/examples_lully_scene.js`):
+3. Write `web/scene.js` (copy the structure of `engine2/examples/*.js (lully, poleas, pinto, barba, pollo, vapor, abogado)`):
    - `build(K)`: `await K.preloadEnvs(); await K.timing();` then build each SET 200 m apart on x (sets farther than 140 m from the camera are culled automatically).
    - Assets: `await K.placeH('<pack>/<Model>', pos, rotY, heightMeters, {byW, tint})` — list models with `ls assets/quaternius/<pack>` (medieval_village_pack, house_interior_pack, buildings_pack_3, nature_pack, street_pack, rpg_items_pack, survival_pack, animals_pack, crops_pack, modular_medieval_buildings_pack…). Primitives: `K.box / K.cyl / K.sph / K.plane / K.tex(canvas)`; lights `K.pointLight` (few!).
    - Characters: `K.makeChar(K.scene, {shirt, pants, belt, buttons, tie, cape, hat:'top|bowler|cap|helmet|hard|tricorn|crown|chef|wig', hatColor, hair, mustache, beard, glasses, seed})`; per frame `K.poseChar(C, {pos, yaw, walk, run, sit, arms:'point|up|wave|akimbo|shrug|hold|hold2|cross|reach|think|fists|flail|drink|hammer', lean, look, expr:'neutral|happy|laugh|proud|smug|shock|scared|worried|sad|angry|tired', talk, tremble, fall, bounce, sweat, blush}, f)`; props via `C.hold(obj, offset, rot)`.
