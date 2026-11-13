@@ -209,11 +209,23 @@
    "project": "faro3",
    "media": "VID-20261110-013c.mp4",
    "qa": "CALIDAD 7.1 / PEGADA 7.0 PUBLICAR"
+  },
+  "VID-20261115-014": {
+   "project": "/home/claude/v2/tycho",
+   "title": "Este astrónomo tenía NARIZ DE METAL… y lo mató la cortesía 👃",
+   "metricool_id": 427224263,
+   "uuid": "-3182287624977233691",
+   "slotAt": "2026-11-15T19:00",
+   "status": "programado",
+   "media": "VID-20261115-014.mp4",
+   "engine": "v2.1-rick",
+   "hookA": "Este astrónomo tenía NARIZ DE METAL… y lo mató la cortesía",
+   "hookB": "Murió por no levantarse de la mesa"
   }
  },
- "next_num": 14,
+ "next_num": 15,
  "metricool_month_count": {
-  "2026-11": 14
+  "2026-11": 15
  },
  "compilations": {
   "2026-W46": {
