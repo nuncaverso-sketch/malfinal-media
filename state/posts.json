@@ -177,15 +177,16 @@
    "engine": "v2"
   },
   "VID-20261110-011": {
-   "metricool_id": 426450346,
+   "metricool_id": 426604551,
    "uuid": "-4743505066469406067",
    "slot": "2026-11-14T13:00:00",
    "title": "Un genio de la ciencia murió por rellenar un pollo con NIEVE 🐔❄️",
    "project": "pollo3",
-   "media": "VID-20261110-011v3.mp4",
+   "media": "VID-20261110-011v4.mp4",
    "qa": "v3 rebuild (1 attempt + forced publish rule)",
-   "slotAt": null,
-   "status": "draft_pending_v2"
+   "slotAt": "2026-11-14T17:00",
+   "status": "programado",
+   "engine": "v2"
   },
   "VID-20261110-012": {
    "metricool_id": 426450356,
