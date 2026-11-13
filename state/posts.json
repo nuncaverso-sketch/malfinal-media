@@ -189,15 +189,16 @@
    "engine": "v2"
   },
   "VID-20261110-012": {
-   "metricool_id": 426450356,
+   "metricool_id": 426653074,
    "uuid": "717286113889374008",
    "slot": "2026-11-14T19:30:00",
    "title": "Una de las primeras personas en morir por un AUTO… en 1869 🚂",
    "project": "vapor3",
-   "media": "VID-20261110-012v3.mp4",
+   "media": "VID-20261110-012v4.mp4",
    "qa": "v3 rebuild (1 attempt + forced publish rule)",
-   "slotAt": null,
-   "status": "draft_pending_v2"
+   "slotAt": "2026-11-14T20:00",
+   "status": "programado",
+   "engine": "v2"
   },
   "VID-20261110-013": {
    "metricool_id": 423833327,
