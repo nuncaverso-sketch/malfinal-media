@@ -47,17 +47,21 @@ scene.fog = new THREE.Fog(0xffe2b8, 40, 260);
 
 // ---------- post ----------
 const rt = new THREE.WebGLRenderTarget(W, H, { type: THREE.HalfFloatType, samples: 0 });
-const depthRT = new THREE.WebGLRenderTarget(W, H, { type: THREE.UnsignedByteType }); const depthMat = new THREE.MeshDepthMaterial({ depthPacking: THREE.RGBADepthPacking });
+const depthRT = new THREE.WebGLRenderTarget(W, H, { type: THREE.UnsignedByteType });
+// prepass: rg = view-space normal.xy, ba = linear depth (16 bit over 0..160 m)
+const depthMat = new THREE.ShaderMaterial({ vertexShader: 'varying vec3 vn; varying float vz; void main(){ vn=normalize(normalMatrix*normal); vec4 mv=modelViewMatrix*vec4(position,1.); vz=-mv.z; gl_Position=projectionMatrix*mv; }',
+  fragmentShader: 'varying vec3 vn; varying float vz; void main(){ float d=clamp(vz/160.,0.,0.99999); float hi=floor(d*255.)/255.; float lo=fract(d*255.); vec3 n=normalize(vn); if(!gl_FrontFacing) n=-n; gl_FragColor=vec4(n.xy*0.5+0.5,hi,lo); }', side: THREE.DoubleSide });
 const composer = new EffectComposer(renderer, rt); composer.setPixelRatio(1); composer.setSize(W, H);
 composer.addPass(new RenderPass(scene, cam));
 const bloom = new UnrealBloomPass(new THREE.Vector2(W / 2, H / 2), 0.22, 0.5, 2.2); composer.addPass(bloom);
 const lensPass = new ShaderPass({
   uniforms: { tDiffuse: { value: null }, tDepth: { value: depthRT.texture }, res: { value: new THREE.Vector2(W, H) }, near: { value: 0.1 }, far: { value: 900 },
-    focus: { value: 6 }, aperture: { value: 0.0 }, maxBlur: { value: 14 }, ink: { value: 0.75 }, inkCol: { value: new THREE.Color(0x1a1218) } },
+    focus: { value: 6 }, aperture: { value: 0.0 }, maxBlur: { value: 14 }, ink: { value: 0.9 }, inkW: { value: 1.3 }, inkN: { value: 1.0 }, inkCol: { value: new THREE.Color(0x1a1218) } },
   vertexShader: 'varying vec2 vUv; void main(){ vUv=uv; gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.); }',
   fragmentShader: `#include <packing>
-  uniform sampler2D tDiffuse, tDepth; uniform vec2 res; uniform float near,far,focus,aperture,maxBlur,ink; uniform vec3 inkCol; varying vec2 vUv;
-  float lin(vec2 uv){ float d=unpackRGBAToDepth(texture2D(tDepth,uv)); return near*far/(far-d*(far-near)); }
+  uniform sampler2D tDiffuse, tDepth; uniform vec2 res; uniform float near,far,focus,aperture,maxBlur,ink,inkW,inkN; uniform vec3 inkCol; varying vec2 vUv;
+  float lin(vec2 uv){ vec4 t=texture2D(tDepth,uv); if(t.b>0.999&&t.a>0.99) return 900.; return (t.b+t.a/255.)*160.; }
+  vec2 nrm(vec2 uv){ return texture2D(tDepth,uv).rg*2.-1.; }
   float coc(float z){ float c=abs(1.-focus/max(z,0.001))*aperture*res.y*0.01; return clamp(c-0.8, 0., maxBlur); }
   void main(){
     float z=lin(vUv); float c=coc(z); vec3 acc=texture2D(tDiffuse,vUv).rgb; float wsum=1.;
@@ -65,20 +69,24 @@ const lensPass = new ShaderPass({
         float zs=lin(vUv+o); float cs=coc(zs); float w = zs<z ? smoothstep(0.,1.,cs/max(r,0.5)) : 1.; acc+=texture2D(tDiffuse,vUv+o).rgb*w; wsum+=w; } }
     vec3 col=acc/wsum;
     // depth-edge ink (silhouettes), fades with blur and distance
-    vec2 px=1.2/res; float zl=lin(vUv-vec2(px.x,0.)), zr=lin(vUv+vec2(px.x,0.)), zu=lin(vUv+vec2(0.,px.y)), zd=lin(vUv-vec2(0.,px.y));
-    float e=max(max(abs(zl-z),abs(zr-z)),max(abs(zu-z),abs(zd-z)))/z; float edge=smoothstep(0.035,0.09,e)*ink*(1.-smoothstep(1.,5.,c))*(1.-smoothstep(60.,180.,z));
-    col=mix(col,inkCol*0.08,edge);
+    vec2 px=inkW/res; float zl=lin(vUv-vec2(px.x,0.)), zr=lin(vUv+vec2(px.x,0.)), zu=lin(vUv+vec2(0.,px.y)), zd=lin(vUv-vec2(0.,px.y));
+    float e=max(max(abs(zl-z),abs(zr-z)),max(abs(zu-z),abs(zd-z)))/z;
+    vec2 n0=nrm(vUv); float ne=max(max(length(nrm(vUv-vec2(px.x,0.))-n0),length(nrm(vUv+vec2(px.x,0.))-n0)),max(length(nrm(vUv+vec2(0.,px.y))-n0),length(nrm(vUv-vec2(0.,px.y))-n0)));
+    float edge=max(smoothstep(0.03,0.07,e), smoothstep(0.35,0.6,ne)*inkN)*ink*(1.-smoothstep(1.,5.,c))*(1.-smoothstep(50.,150.,z));
+    col=mix(col,inkCol*0.12,edge);
     if(maxBlur<0.){ gl_FragColor=vec4(vec3(texture2D(tDepth,vUv).x), 1.); return; }
     gl_FragColor=vec4(col,1.); }` });
 lensPass.uniforms.tDepth.value = depthRT.texture;
 composer.addPass(lensPass);
 composer.addPass(new OutputPass());
 const gradePass = new ShaderPass({
-  uniforms: { tDiffuse: { value: null }, sat: { value: 1.18 }, con: { value: 1.06 }, warm: { value: new THREE.Vector3(1.03, 1.0, 0.96) }, shadowTint: { value: new THREE.Vector3(0.96, 0.98, 1.06) }, vig: { value: 0.28 }, grain: { value: 0.025 }, seed: { value: 0 }, flash: { value: 0 }, black: { value: 0 }, res: { value: new THREE.Vector2(W, H) } },
+  uniforms: { tDiffuse: { value: null }, whip: { value: 0 }, punch: { value: 0 }, sat: { value: 1.18 }, con: { value: 1.06 }, warm: { value: new THREE.Vector3(1.03, 1.0, 0.96) }, shadowTint: { value: new THREE.Vector3(0.96, 0.98, 1.06) }, vig: { value: 0.28 }, grain: { value: 0.025 }, seed: { value: 0 }, flash: { value: 0 }, black: { value: 0 }, res: { value: new THREE.Vector2(W, H) } },
   vertexShader: 'varying vec2 vUv; void main(){ vUv=uv; gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.); }',
-  fragmentShader: `uniform sampler2D tDiffuse; uniform float sat,con,vig,grain,seed,flash,black; uniform vec3 warm,shadowTint; uniform vec2 res; varying vec2 vUv;
+  fragmentShader: `uniform sampler2D tDiffuse; uniform float whip,punch,sat,con,vig,grain,seed,flash,black; uniform vec3 warm,shadowTint; uniform vec2 res; varying vec2 vUv;
   float h(vec2 p){ return fract(sin(dot(p,vec2(12.9898,78.233))+seed)*43758.5453); }
-  void main(){ vec3 c=texture2D(tDiffuse,vUv).rgb; float l=dot(c,vec3(0.299,0.587,0.114));
+  void main(){ vec2 uv=(vUv-0.5)*(1.-punch)+0.5; vec3 c=vec3(0.); float tot=0.;
+    for(int i=0;i<9;i++){ float k=float(i)/8.-0.5; vec2 o=vec2(k*whip,0.)+(uv-0.5)*k*punch*0.6; float w=1.-abs(k); c+=texture2D(tDiffuse,uv+o).rgb*w; tot+=w; } c/=tot;
+    float l=dot(c,vec3(0.299,0.587,0.114));
     c=mix(vec3(l),c,sat); c=(c-0.5)*con+0.5; c*=mix(shadowTint,warm,smoothstep(0.1,0.8,l));
     vec2 q=vUv-0.5; q.x*=res.x/res.y; c*=1.-vig*smoothstep(0.35,0.95,length(q)*1.25);
     c+= (h(vUv*res)-0.5)*grain; c=mix(c,vec3(1.),flash); c=mix(c,vec3(0.),black);
@@ -86,12 +94,15 @@ const gradePass = new ShaderPass({
 composer.addPass(gradePass);
 composer.addPass(new SMAAPass(W, H));
 
+// ---------- toon (RicksClips-like cel shading) ----------
+const TOON = (() => { const d = new Uint8Array([90, 90, 90, 255, 175, 175, 175, 255, 255, 255, 255, 255]); const t = new THREE.DataTexture(d, 3, 1, THREE.RGBAFormat); t.minFilter = t.magFilter = THREE.NearestFilter; t.needsUpdate = true; return t; })();
+const toonOf = (m) => { if (!m || m.isMeshToonMaterial || m.isShaderMaterial || m.isMeshBasicMaterial) return m; const n = new THREE.MeshToonMaterial({ color: m.color ? m.color.clone() : 0xffffff, map: m.map || null, gradientMap: TOON, transparent: m.transparent, opacity: m.opacity ?? 1, side: m.side, emissive: m.emissive ? m.emissive.clone() : 0x000000, emissiveIntensity: m.emissiveIntensity ?? 1, emissiveMap: m.emissiveMap || null, depthWrite: m.depthWrite, polygonOffset: m.polygonOffset, polygonOffsetFactor: m.polygonOffsetFactor }); return n; };
 // ---------- assets ----------
 const loader = new GLTFLoader(); const cache = {};
 function stylize(root, o = {}) {
   root.traverse((m) => { if (!m.isMesh) return; m.castShadow = o.shadow !== false; m.receiveShadow = true;
     const fix = (mat) => { const n = mat.clone(); n.roughness = Math.max(n.roughness ?? 0.7, o.rough ?? 0.72); n.metalness = Math.min(n.metalness ?? 0, 0.15); n.envMapIntensity = o.env ?? 0.8;
-      if (o.tint) n.color.multiply(new THREE.Color(o.tint)); if (n.color) { const hsl = {}; n.color.getHSL(hsl); n.color.setHSL(hsl.h, Math.min(1, hsl.s * (o.satBoost ?? 1.15)), hsl.l); } return n; };
+      if (o.tint) n.color.multiply(new THREE.Color(o.tint)); if (n.color) { const hsl = {}; n.color.getHSL(hsl); n.color.setHSL(hsl.h, Math.min(1, hsl.s * (o.satBoost ?? 1.3)), Math.min(0.92, hsl.l * 1.05)); } return K.TOON_ON ? toonOf(n) : n; };
     m.material = Array.isArray(m.material) ? m.material.map(fix) : fix(m.material); });
   return root;
 }
@@ -102,7 +113,7 @@ async function place(path, pos = [0, 0, 0], rotY = 0, scale = 1, o = {}) {
   (o.parent || scene).add(m); return m;
 }
 function sizeOf(obj) { const b = new THREE.Box3().setFromObject(obj); const s = new THREE.Vector3(); b.getSize(s); return { box: b, size: s }; }
-const std = (c, o = {}) => new THREE.MeshStandardMaterial({ color: c, roughness: 0.75, ...o });
+const std = (c, o = {}) => { const m = new THREE.MeshStandardMaterial({ color: c, roughness: 0.75, ...o }); return K.TOON_ON && !o.metalness && !o.keepPBR ? toonOf(m) : m; };
 function ground(col, size = 400, rough = 0.95) { const m = new THREE.Mesh(new THREE.PlaneGeometry(size, size), std(col, { roughness: rough })); m.rotation.x = -Math.PI / 2; m.receiveShadow = true; scene.add(m); return m; }
 function cloud(pos, s = 1, col = 0xffffff) { const g = new THREE.Group(); const mat = std(col, { roughness: 1, emissive: col, emissiveIntensity: 0.35 });
   const R = (k) => { const x = Math.sin(k * 91.7 + pos[0]) * 43758.5; return x - Math.floor(x); };
@@ -127,7 +138,7 @@ const K = { THREE, scene, cam, sun, hemi, rim, sky, skyMat, composer, bloom, len
   focusOn(p) { K.lens.focus.value = cam.position.distanceTo(new THREE.Vector3(...p)); },
   shot(pos, look, fov = 35, roll = 0) { cam.position.set(...pos); cam.up.set(0, 1, 0); cam.lookAt(...look); cam.fov = fov; cam.rotateZ(roll); cam.updateProjectionMatrix();
     K.lens.focus.value = cam.position.distanceTo(new THREE.Vector3(...look)); },
-  shadowSpan: 14, CULL: 140,
+  shadowSpan: 14, CULL: 140, TOON_ON: (new URLSearchParams(location.search).get('style') || 'rick') === 'rick',
 };
 
 // ---------- authoring kit ----------
@@ -144,6 +155,14 @@ const PRESETS = {
   storm: { sunDir: [0.2, 0.9, -0.3], sun: 0xb8c8e0, sunI: 1.6, hemiTop: 0x8090a8, hemiBot: 0x2a3038, hemiI: 0.8, exposure: 1.0, sky: [0x2a3040, 0x4a5466, 0x6a7484], sunSize: 0, fog: [0x4a5466, 15, 140], envI: 0.4, env: 'kloppenheim_06_puresky' },
 };
 K.placeH = placeH; K.PRESETS = PRESETS;
+// big storytelling sign (RicksClips uses huge readable signs/boards to explain the story). Spanish text, 1–4 words.
+K.sign = (text, pos, o = {}) => { const w = o.w || 3, h = o.h || 1.1; const tx = K.tex(1024, Math.round(1024 * h / w), (g, cw, ch) => {
+    g.fillStyle = o.bg || '#7a2a1a'; g.fillRect(0, 0, cw, ch); g.strokeStyle = o.border || '#f3c537'; g.lineWidth = ch * 0.07; g.strokeRect(ch * 0.05, ch * 0.05, cw - ch * 0.1, ch - ch * 0.1);
+    let fs = ch * 0.5; g.font = `900 ${fs}px Poppins, sans-serif`; while (g.measureText(text).width > cw * 0.86 && fs > 10) { fs *= 0.92; g.font = `900 ${fs}px Poppins, sans-serif`; }
+    g.textAlign = 'center'; g.textBaseline = 'middle'; g.lineWidth = fs * 0.14; g.strokeStyle = '#1a1210'; g.strokeText(text, cw / 2, ch * 0.54); g.fillStyle = o.fg || '#ffe9a8'; g.fillText(text, cw / 2, ch * 0.54); });
+  const grp = new THREE.Group(); const b = new THREE.Mesh(new THREE.BoxGeometry(w, h, 0.12), [std(o.frame || 0x4a2a14), std(o.frame || 0x4a2a14), std(o.frame || 0x4a2a14), std(o.frame || 0x4a2a14), new THREE.MeshBasicMaterial({ map: tx }), std(o.frame || 0x4a2a14)]);
+  b.castShadow = true; grp.add(b); if (o.posts) for (const s of [-1, 1]) { const p = new THREE.Mesh(new THREE.BoxGeometry(0.12, pos[1] + h / 2, 0.12), std(o.frame || 0x4a2a14)); p.position.set(s * (w / 2 - 0.2), -(pos[1] + h / 2) / 2 + h / 2 - h / 2, -0.02); grp.add(p); }
+  grp.position.set(...pos); grp.rotation.y = o.rotY || 0; scene.add(grp); return grp; };
 K.preset = (name, over = {}) => { const L = { ...PRESETS[name], ...over }; if (L.env && envs[L.env]) scene.environment = envs[L.env]; K.light(L); };
 K.preloadEnvs = async () => { for (const n of new Set(Object.values(PRESETS).map((p) => p.env))) await env(n); scene.environment = envs.venice_sunset; };
 K.timing = async (url = 'timing.json') => { const t = await (await fetch(url)).json(); K.T = t; K.ph = t.phrases.map((p) => ({ a: Math.round(p.start * 30), b: Math.round(p.end * 30), text: p.text })); return t; };
@@ -165,7 +184,7 @@ K.pointLight = (col, i, pos, dist = 12) => { const l = new THREE.PointLight(col,
 // auto-framing for 9:16: targets = [[x,y,z],...] (feet positions of characters or object centres). yaw: direction FROM subjects TO camera (0 = camera on +z side)
 K.frame = (targets, o = {}) => {
   const n = targets.length; const c = [0, 0, 0]; for (const t of targets) for (let i = 0; i < 3; i++) c[i] += t[i] / n;
-  const yaw = o.yaw ?? 0, pitch = o.pitch ?? 0.12, fov = o.fov ?? 34, h = o.h ?? 2.3; // h = subject height
+  const yaw = o.yaw ?? 0, pitch = o.pitch ?? (K.TOON_ON ? 0.03 : 0.12), fov = o.fov ?? (K.TOON_ON ? 44 : 34), h = o.h ?? (K.TOON_ON ? 2.6 : 2.3); // h = subject height
   const right = [Math.cos(yaw), 0, -Math.sin(yaw)]; let half = 0.6; for (const t of targets) half = Math.max(half, Math.abs((t[0] - c[0]) * right[0] + (t[2] - c[2]) * right[2]) + 0.55);
   const vf = fov * Math.PI / 180, hf = 2 * Math.atan(Math.tan(vf / 2) * (W / H));
   let d = Math.max((half * (o.pad ?? 1.15)) / Math.tan(hf / 2), (h * 0.5 * (o.vpad ?? 1.25)) / Math.tan(vf / 2)) * (o.push ?? 1);
@@ -177,7 +196,9 @@ K.frame = (targets, o = {}) => {
 await S.build(K);
 window.FRAMES = S.FRAMES;
 window.renderFrame = (f) => {
-  K.grade.seed.value = f * 0.37; K.grade.flash.value = 0; K.grade.black.value = 0; K.grade.sat.value = 1.18; K.grade.vig.value = 0.28; K.lens.aperture.value = 0.4;
+  K.grade.seed.value = f * 0.37; K.grade.flash.value = 0; K.grade.black.value = 0; K.grade.sat.value = K.TOON_ON ? 1.3 : 1.18; K.grade.con.value = K.TOON_ON ? 1.08 : 1.06; K.grade.vig.value = 0.28; K.lens.aperture.value = 0.4; K.grade.whip.value = 0; K.grade.punch.value = 0;
+  if (K.TOON_ON && K.ph && K.AUTO_CUTS !== false) { let dmin = 99, sgn = 1; for (const p of K.ph) { const c = p.a - 4; const d = f - c; if (Math.abs(d + 0.5) < Math.abs(dmin + 0.5)) { dmin = d; sgn = (p.a % 2) ? 1 : -1; } }
+    const w = Math.max(0, 1 - Math.abs(dmin + 0.5) / 3.5); K.grade.whip.value = sgn * 0.09 * w * w; K.grade.punch.value = dmin >= 0 ? 0.05 * Math.max(0, 1 - dmin / 8) : 0; }
   for (const o of scene.children) if (o.userData.culled) { o.visible = true; o.userData.culled = false; }
   S.frame(f, K);
   // set culling: everything farther than CULL m from the camera is hidden for this frame (sets live 200 m apart)

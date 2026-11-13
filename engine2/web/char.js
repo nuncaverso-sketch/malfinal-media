@@ -5,9 +5,12 @@ import * as THREE from 'three';
 const INK = 0x16121a;
 const hull = (k) => { const m = new THREE.MeshBasicMaterial({ color: INK, side: THREE.BackSide });
   m.onBeforeCompile = (s) => { s.vertexShader = s.vertexShader.replace('#include <begin_vertex>', `vec3 transformed = position + normal * ${k.toFixed(4)};`); }; return m; };
-const HULL = { head: hull(0.022), body: hull(0.02), hat: hull(0.016), thin: hull(0.01) };
-const inkMat = new THREE.MeshStandardMaterial({ color: INK, roughness: 0.5 });
-const std = (c, o = {}) => new THREE.MeshStandardMaterial({ color: c, roughness: 0.42, metalness: 0, ...o });
+const HULL = { head: hull(0.026), body: hull(0.024), hat: hull(0.02), thin: hull(0.012) };
+const inkMat = new THREE.MeshBasicMaterial({ color: INK });
+const TOONG = (() => { const d = new Uint8Array([105, 105, 105, 255, 190, 190, 190, 255, 255, 255, 255, 255]); const t = new THREE.DataTexture(d, 3, 1, THREE.RGBAFormat); t.minFilter = t.magFilter = THREE.NearestFilter; t.needsUpdate = true; return t; })();
+const SKING = (() => { const d = new Uint8Array([200, 200, 200, 255, 232, 232, 232, 255, 255, 255, 255, 255]); const t = new THREE.DataTexture(d, 3, 1, THREE.RGBAFormat); t.minFilter = t.magFilter = THREE.NearestFilter; t.needsUpdate = true; return t; })();
+const RICK = (new URLSearchParams(location.search).get('style') || 'rick') === 'rick';
+const std = (c, o = {}) => { if (RICK && !o.metalness) { const { roughness: _r, metalness: _m, ...rest } = o; return new THREE.MeshToonMaterial({ color: c, gradientMap: TOONG, ...rest }); } return new THREE.MeshStandardMaterial({ color: c, roughness: 0.42, metalness: 0, ...o }); };
 function mesh(geo, mat, parent, pos = [0, 0, 0], ink = null, shadow = true) {
   const m = new THREE.Mesh(geo, mat); m.position.set(...pos); m.castShadow = shadow; m.receiveShadow = true; parent.add(m);
   if (ink) { const h = new THREE.Mesh(geo, ink); h.castShadow = false; m.add(h); }
@@ -86,11 +89,12 @@ export function makeChar(scene, o = {}) {
   if (o.cape) { const c = mesh(new THREE.PlaneGeometry(0.5, 0.75), std(o.cape, { side: THREE.DoubleSide }), torso, [0, 0.28, -0.2]); c.rotation.x = 0.12; }
   const neck = new THREE.Group(); neck.position.y = 0.6; torso.add(neck);
   const head = new THREE.Group(); head.position.y = 0.33; neck.add(head);
-  const hs = o.headScale || 1; head.scale.setScalar(hs);
-  mesh(new THREE.SphereGeometry(0.3, 40, 28), std(o.skin ?? 0xfbf8f2, { roughness: 0.3 }), head, [0, 0, 0], HULL.head);
+  const hs = o.headScale || (RICK ? 1.42 : 1); head.scale.setScalar(hs); head.position.y = 0.3 * hs + 0.03;
+  mesh(new THREE.SphereGeometry(0.3, 40, 28), RICK ? new THREE.MeshToonMaterial({ color: o.skin ?? 0xfffdf8, gradientMap: SKING }) : std(o.skin ?? 0xfbf8f2, { roughness: 0.3 }), head, [0, 0, 0], HULL.head);
   const FS = 512, fc = document.createElement('canvas'); fc.width = fc.height = FS; const fg = fc.getContext('2d');
   const ft = new THREE.CanvasTexture(fc); ft.colorSpace = THREE.SRGBColorSpace; ft.anisotropy = 8;
-  const face = mesh(new THREE.SphereGeometry(0.302, 40, 28, Math.PI / 2 - 1.05, 2.1, Math.PI / 2 - 1.0, 2.0), new THREE.MeshStandardMaterial({ map: ft, transparent: true, roughness: 0.4, depthWrite: false, polygonOffset: true, polygonOffsetFactor: -2 }), head, [0, 0, 0], null, false);
+  const face = mesh(new THREE.SphereGeometry(0.302, 40, 28, Math.PI / 2 - 1.05, 2.1, Math.PI / 2 - 1.0, 2.0), (RICK ? new THREE.MeshToonMaterial({ map: ft, transparent: true, gradientMap: SKING, depthWrite: false, polygonOffset: true, polygonOffsetFactor: -2 }) : new THREE.MeshStandardMaterial({ map: ft, transparent: true, roughness: 0.4, depthWrite: false, polygonOffset: true, polygonOffsetFactor: -2 })), head, [0, 0, 0], null, false);
+  if (o.nose) { const n = mesh(new THREE.SphereGeometry(0.07, 20, 14), new THREE.MeshStandardMaterial({ color: o.nose, metalness: 0.9, roughness: 0.18 }), head, [0, -0.03, 0.3], HULL.thin); n.scale.set(0.9, 1.1, 1.0); }
   if (o.hat) addHat(head, o.hat, o.hatColor);
   if (o.hair) addHat(head, 'hair', o.hair);
   // limbs
