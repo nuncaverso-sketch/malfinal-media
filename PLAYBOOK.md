@@ -1,5 +1,11 @@
 # Mal Final: autopilot (scheduled task)
 
+> ## ⏸ PAUSE (12 Nov 20:10, user request): MIGRATION TO ENGINE v2 IN PROGRESS
+> The user asked to switch everything to the new "pro" look (engine2/). While this banner is here:
+> do ONLY step 2 (analytics → insights.md) and step 8 (commit). Do NOT produce, schedule, move or delete posts,
+> even if slots look empty (queued posts were turned into drafts on purpose and are being re-rendered by the main session).
+> The main session removes this banner when engine v2 + the new PLAYBOOK are ready.
+
 Goal: there must ALWAYS be scheduled in Metricool every free slot for the rest of today plus the next 2 days.
 **Rhythm: 3 videos per day** (user decision, 11 Nov evening): **Mon–Fri 12:00, 18:00, 20:30 · Sat 11:00, 17:00, 20:00 · Sun 09:00, 13:00, 19:00**. Target: get each video as close to 10 as possible.
 Each video passes through a **pre-production filter**: the reviewer, fed with the real metrics of the videos already published.
